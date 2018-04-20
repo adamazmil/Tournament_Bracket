@@ -26,6 +26,7 @@ public class Main extends Application {
 		try {
 		    primaryStage.setTitle("Tournament Bracket");
             
+		    
 		    for (int i = 0; i < lengthOfRoundArray; i++) {
 		        rounds[i] = new BorderPane();
 		        if (i !=0) {
@@ -63,7 +64,8 @@ public class Main extends Application {
             
 			Scene scene = new Scene(rounds[0],1366,900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-	
+			rounds [0].setTop(new Label("Enter scores for matchup and click submit to lock in scores. "
+			                + "Once all matches in a round are entered, winning teams will advance and new scores can be entered."));
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
