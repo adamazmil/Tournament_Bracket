@@ -16,15 +16,9 @@ import javafx.scene.text.Font;
     
 public class Main extends Application {
     
-    //static int TEAMNUM = 16;
     String[][] teamRounds = {{"TEAM 1","TEAM 8","TEAM 3","TEAM 6","TEAM 4","TEAM 5","TEAM 2"," TEAM 7"}, 
     						{"TBD","TBD","TBD","TBD"}, 
     						{"TBD","TBD"}};
-    
-	//int[] teams = {1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8};
-	
-	
-	//int currentRound;
 	
 	BorderPane[] rounds = new BorderPane[teamRounds.length];
     
