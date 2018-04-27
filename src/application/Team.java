@@ -8,6 +8,11 @@ public class Team {
     public Team() {
         win = false;
     }
+    
+    public Team(String name) {
+        this.name = name;
+        win = false;
+    }
 
     public void setName(String name) {
         this.name = name;
