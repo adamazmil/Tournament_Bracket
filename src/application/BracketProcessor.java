@@ -43,8 +43,6 @@ public class BracketProcessor implements BracketProcessorADT {
         return null;
     }
 
-    public Team[] advanceRound() {
-        return null;
     }
 
     public Team[] getData() {
