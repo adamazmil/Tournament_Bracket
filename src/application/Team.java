@@ -3,10 +3,9 @@ package application;
 public class Team {
     private String name;
     private int score;
-    private boolean win;
 
-    public Team() {
-        win = false;
+    public Team(String name) {
+        this.name = name;
     }
 
     public void setName(String name) {
@@ -23,10 +22,6 @@ public class Team {
 
     public int getScore() {
         return score;
-    }
-
-    public void setWin() {
-        win = true;
     }
 
 }

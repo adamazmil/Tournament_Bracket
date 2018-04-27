@@ -13,7 +13,8 @@ import javafx.scene.text.Font;
 
 public class Main extends Application {
 
-    String[][] teamRounds = { { "TEAM 1", "TEAM 8", "TEAM 3", "TEAM 6", "TEAM 4", "TEAM 5", "TEAM 2", " TEAM 7" },
+    //Team[][] teamRounds = bracketData.getData();
+	String[][] teamRounds = { { "TEAM 1", "TEAM 8", "TEAM 3", "TEAM 6", "TEAM 4", "TEAM 5", "TEAM 2", " TEAM 7" },
             { "TBD", "TBD", "TBD", "TBD" }, { "TBD", "TBD" } };
 
     BorderPane[] rounds = new BorderPane[teamRounds.length];
@@ -36,10 +37,10 @@ public class Main extends Application {
                 VBox roundRight = new VBox();
                 roundRight.setPadding(new Insets(50 * i, 50, 0, 50));
                 for (int j = 0; j < teamRounds[i].length / 2; j += 2) {
-                    roundLeft.getChildren().add(makeGames(teamRounds[i][j], teamRounds[i][j + 1]));
+                    roundLeft.getChildren().add(makeGames(teamRounds[i][j], teamRounds[i][j + 1], j, j));
                 }
                 for (int j = teamRounds[i].length / 2; j < teamRounds[i].length; j += 2) {
-                    roundRight.getChildren().add(makeGames(teamRounds[i][j], teamRounds[i][j + 1]));
+                    roundRight.getChildren().add(makeGames(teamRounds[i][j], teamRounds[i][j + 1], i, j));
                 }
                 rounds[i].setLeft(roundLeft);
                 rounds[i].setRight(roundRight);
@@ -48,7 +49,8 @@ public class Main extends Application {
             VBox lastRound = new VBox();
             lastRound.setPadding(new Insets(50, 0, 0, 20));
             lastRound.getChildren()
-                    .add(makeGames(teamRounds[teamRounds.length - 1][0], teamRounds[teamRounds.length - 1][1]));
+                    .add(makeGames(teamRounds[teamRounds.length - 1][0], 
+                    		teamRounds[teamRounds.length - 1][1], teamRounds.length - 1, 0));
             rounds[rounds.length - 1].setCenter(lastRound);
 
             Scene scene = new Scene(rounds[0], 1366, 900);
@@ -69,8 +71,9 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-
-    public VBox makeGames(String team1, String team2) {
+    
+    //public VBox makeGames(Team team1, Team team2, int round, int gameIndex) {
+    public VBox makeGames(String team1, String team2, int round, int gameIndex) {
 
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(0, 0, 50, 0));
@@ -79,12 +82,14 @@ public class Main extends Application {
         Label teamName1 = new Label(team1 + "  ");
         TextField inputTeam1 = new TextField();
         inputTeam1.setPromptText("Enter team scores");
+//        inputTeam1.setOnAction(e -> team1.setScore(e));
         inputTeam1.setOnAction(e -> System.out.println("works"));
         teamField1.getChildren().addAll(teamName1, inputTeam1);
 
         HBox submitBox = new HBox();
         submitBox.setPadding(new Insets(0, 0, 0, 50));
         Button button = new Button("Submit Game Score");
+//        button.setOnAction(e -> bracketData.advanceRound(team1, team2, round, gameIndex));
         button.setOnAction(e -> System.out.println("works"));
         submitBox.getChildren().addAll(button);
 
@@ -92,6 +97,7 @@ public class Main extends Application {
         Label teamName2 = new Label(team2 + "  ");
         TextField inputTeam2 = new TextField();
         inputTeam2.setPromptText("Enter team scores");
+//      inputTeam1.setOnAction(e -> team2.setScore(e));
         inputTeam2.setOnAction(e -> System.out.println("works"));
         teamField2.getChildren().addAll(teamName2, inputTeam2);
 
@@ -101,6 +107,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
+//        BracketProcessor bracketData = new BracketProcessor("teams.txt");
+    	launch(args);
     }
 }
