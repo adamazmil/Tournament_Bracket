@@ -8,6 +8,8 @@ import java.util.stream.Stream;
 public class BracketProcessor implements BracketProcessorADT {
     private Team[] teamList;
     private int numberOfTeams;
+    private Team[][] teamRounds;
+   
 
     /**
      * Constructor for this class. Initializes instances variables to set the starting state of the object
@@ -43,9 +45,15 @@ public class BracketProcessor implements BracketProcessorADT {
         return null;
     }
 
+    public int advanceRound(Team team1, Team team2, int round, int gameIndex) {
+    	Team winner = (team1.getScore() > team2.getScore()) ? team1 : team2;
+    	int winnerPosition = gameIndex / 2;
+    	teamRounds[round + 1][winnerPosition] = winner;
+    	return winnerPosition;
     }
 
     public Team[] getData() {
         return null;
     }
+
 }
