@@ -120,11 +120,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-<<<<<<< HEAD
         BracketProcessor bracketData = new BracketProcessor("teams.txt");
     	//launch(args);
-=======
-    	launch(args);
->>>>>>> 97ba90ec9a4a3d9a3407b601f1b5582d377984e2
     }
 }
