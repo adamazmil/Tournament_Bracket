@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 public class BracketProcessor implements BracketProcessorADT {
-    private Team[] teamList;
     private int numberOfTeams;
     private Team[][] teamRounds;
    
@@ -24,19 +23,38 @@ public class BracketProcessor implements BracketProcessorADT {
                 // make all of the Strings in the Stream uppercase
                 .map(String::toLowerCase);
             
-            
-            teamList = new Team[(int)teamStream.count()];
-            String[] teamsAsString = (String[])teamStream.toArray();
             String[] teamsAsString = teamStream.toArray(String[]::new);
             Team[] teamList = new Team[teamsAsString.length];
             
             //copys stream to array 1:1 (no seeding)
-            for(int i = 0; i < teamList.length; i++) {
-                teamList[i] = new Team(teamsAsString[i]);
+            for (int j = 0; j < teamList.length; j++) {
+                    teamList[j] = new Team(teamsAsString[j]);
             }
-            
+            teamRounds = new Team[(int)(Math.log(teamList.length)/Math.log(2))+1][];
+            //System.out.println((int)(Math.log(teamList.length)/Math.log(2)));
+            for(int i = 0; i < teamRounds.length; i++) {
+                if (i == 0) {
+                    teamRounds[i] = teamList;
+                }
+                else {
+                    teamRounds[i] = new Team[teamList.length/(int)(Math.pow(2, i))];
+                }
+            }
             this.numberOfTeams = teamList.length;
             seed();
+            
+            
+            for (int i = 0; i < teamRounds.length; i++) {
+                for(int j = 0; j < teamRounds[i].length; j++) {
+                    if (teamRounds[i][j] == null) {
+                        System.out.print("null");
+                    } else {
+                        System.out.print(teamRounds[i][j].getName());
+                    }
+                }
+                System.out.println();
+            }
+            
         } catch(IOException e) {
             e.printStackTrace();
         }
