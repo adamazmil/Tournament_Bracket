@@ -27,6 +27,8 @@ public class BracketProcessor implements BracketProcessorADT {
             
             teamList = new Team[(int)teamStream.count()];
             String[] teamsAsString = (String[])teamStream.toArray();
+            String[] teamsAsString = teamStream.toArray(String[]::new);
+            Team[] teamList = new Team[teamsAsString.length];
             
             //copys stream to array 1:1 (no seeding)
             for(int i = 0; i < teamList.length; i++) {
