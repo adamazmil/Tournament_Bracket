@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -32,6 +33,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             primaryStage.setTitle("Tournament Bracket");
+            primaryStage.getIcons().add(new Image("file:color-UWcrest-print.png"));
             
             for (int i = 0; i < teamRounds.length; i++) {
                 rounds[i] = new BorderPane();
@@ -68,7 +70,7 @@ public class Main extends Application {
             instructionBox.setPadding(new Insets(20,10,50,20));
             Label instruction = new Label("Enter scores for the matchup and click submit to lock in scores. "
                     + "Once all matches in a round are entered, winning teams will advance and new scores can be entered.");
-            instruction.setFont(new Font("Arial", 25));
+            instruction.setFont(new Font("Roboto", 25));
             instruction.setWrapText(true);
             instructionBox.getChildren().add(instruction);
             rounds [0].setTop(instructionBox);
