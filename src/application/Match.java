@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class Match {
+    private Match nextMatch;
     private VBox container;
     private Button button;
     private Label label1;

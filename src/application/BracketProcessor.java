@@ -61,9 +61,22 @@ public class BracketProcessor implements BracketProcessorADT {
         
     }
     
+    @Override
+
     public Team[] seed() {
-        return null;
+        Team[] temporary = new Team[numberOfTeams];
+        int teamIndex = numberOfTeams-1;
+        for(int i=0; i < numberOfTeams-1 ; i++ ) {
+            System.out.println("test");
+            temporary[i]= teamRounds[0][i];
+            temporary[++i] = teamRounds[0][teamIndex--];
+        }
+        teamRounds[0]=temporary;
+        return teamRounds[0];
     }
+        
+        
+    
 
     public int advanceRound(Team team1, Team team2, int round, int gameIndex) {
     	Team winner = (team1.getScore() > team2.getScore()) ? team1 : team2;
@@ -72,8 +85,12 @@ public class BracketProcessor implements BracketProcessorADT {
     	return winnerPosition;
     }
 
-    public Team[] getData() {
-        return null;
+    @Override
+    public Team[] getData(int index) {
+        
+        return teamRounds[index];
     }
+    
+    
 
 }
