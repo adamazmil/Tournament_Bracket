@@ -62,20 +62,17 @@ public class BracketProcessor implements BracketProcessorADT {
     }
     
     @Override
-    public void seed() {
-        int teamIndex;
-        int teamLength;
-        for(int i=0; i < teamRounds.length-1; i++) {
-            teamLength = teamRounds[i].length-1;
-            teamIndex = 0;
-            for(int j=0; j< teamRounds[i].length/2; j++) {
-                if(teamRounds[i][j]==null|teamRounds[i][teamLength - j]==null) {
-                    break;
-                }
-                advanceRound(teamRounds[i][j], teamRounds[i][teamLength-j], i, teamIndex++);
-            }
+
+    public Team[] seed() {
+        Team[] temporary = new Team[numberOfTeams];
+        int teamIndex = numberOfTeams-1;
+        for(int i=0; i < numberOfTeams-1 ; i++ ) {
+            System.out.println("test");
+            temporary[i]= teamRounds[0][i];
+            temporary[++i] = teamRounds[0][teamIndex--];
         }
-        
+        teamRounds[0]=temporary;
+        return teamRounds[0];
     }
         
         
