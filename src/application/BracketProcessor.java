@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 public class BracketProcessor implements BracketProcessorADT {
     private int numberOfTeams;
-    private Team[][] teamRounds;
+    private Match[][] matchRounds;
 
     /**
      * Constructor for this class. Initializes instances variables to set the starting state of the object
@@ -29,26 +29,26 @@ public class BracketProcessor implements BracketProcessorADT {
             for (int j = 0; j < teamList.length; j++) {
                     teamList[j] = new Team(teamsAsString[j]);
             }
-            teamRounds = new Team[(int)(Math.log(teamList.length)/Math.log(2))+1][];
+            matchRounds = new Team[(int)(Math.log(teamList.length)/Math.log(2))+1][];
             //System.out.println((int)(Math.log(teamList.length)/Math.log(2)));
-            for(int i = 0; i < teamRounds.length; i++) {
+            for(int i = 0; i < matchRounds.length; i++) {
                 if (i == 0) {
-                    teamRounds[i] = teamList;
+                    matchRounds[i] = teamList;
                 }
                 else {
-                    teamRounds[i] = new Team[teamList.length/(int)(Math.pow(2, i))];
+                    matchRounds[i] = new Team[teamList.length/(int)(Math.pow(2, i))];
                 }
             }
             this.numberOfTeams = teamList.length;
             seed();
             
             
-            for (int i = 0; i < teamRounds.length; i++) {
-                for(int j = 0; j < teamRounds[i].length; j++) {
-                    if (teamRounds[i][j] == null) {
+            for (int i = 0; i < matchRounds.length; i++) {
+                for(int j = 0; j < matchRounds[i].length; j++) {
+                    if (matchRounds[i][j] == null) {
                         System.out.print("null");
                     } else {
-                        System.out.print(teamRounds[i][j].getName());
+                        System.out.print(matchRounds[i][j].getName());
                     }
                 }
                 System.out.println();
@@ -67,24 +67,27 @@ public class BracketProcessor implements BracketProcessorADT {
         int teamIndex = numberOfTeams-1;
         for(int i=0; i < numberOfTeams-1 ; i++ ) {
             System.out.println("test");
-            temporary[i]= teamRounds[0][i];
-            temporary[++i] = teamRounds[0][teamIndex--];
+            temporary[i]= matchRounds[0][i];
+            temporary[++i] = matchRounds[0][teamIndex--];
         }
-        teamRounds[0]=temporary;
-        return teamRounds[0];
+        matchRounds[0]=temporary;
+        return matchRounds[0];
     }
         
-    public int advanceRound(Team team1, Team team2, int round, int gameIndex) {
+    public void advanceRound(Team team1, Team team2, int round, int gameIndex) {
     	Team winner = (team1.getScore() > team2.getScore()) ? team1 : team2;
     	int winnerPosition = gameIndex / 2;
-    	teamRounds[round + 1][winnerPosition] = winner;
-    	return winnerPosition;
+    	if (gameIndex % 2 == 0) {
+    		matchRounds[round + 1][winnerPosition].setTeam1(winner);
+    	} else {
+    		matchRounds[round + 1][winnerPosition].setTeam2(winner);
+    	}
     }
     
     @Override
     public Team[] getData(int index) {
         
-        return teamRounds[index];
+        return matchRounds[index];
     }
     
     
