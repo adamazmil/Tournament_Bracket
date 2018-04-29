@@ -1,9 +1,9 @@
 package application;
 
-public interface BracketProcessorADT {
-    public Team[] seed();
+public interface BracketProcessorADT  {
+    public void seed();
 
     public int advanceRound(Team team1, Team team2, int round, int gameIndex); 
     
-    public Team[] getData();
+    public Team[] getData(int index);
 }
