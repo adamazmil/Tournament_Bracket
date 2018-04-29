@@ -121,6 +121,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         BracketProcessor bracketData = new BracketProcessor("teams.txt");
-    	//launch(args);
+    	launch(args);
     }
 }
