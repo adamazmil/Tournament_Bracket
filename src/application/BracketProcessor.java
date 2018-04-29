@@ -53,6 +53,7 @@ public class BracketProcessor implements BracketProcessorADT {
     }
 
     public Team[] getData() {
+        
         return null;
     }
 
