@@ -13,11 +13,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class Match {
-    private Match nextMatch;
     private VBox container;
     private Button button;
+    
     private Label label1;
     private Label label2;
+    
     private TextField text1;
     private TextField text2;
     
@@ -61,6 +62,14 @@ public class Match {
                                 });
         
         container.getChildren().addAll(teamField1, submitBox, teamField2);
+    }
+    
+    public void setLabel1() {
+    	
+    }
+    
+    public void setLabel2() {
+    
     }
     
     public VBox getContainer() {
