@@ -16,7 +16,7 @@ public class Main extends Application {
 	
 	BracketProcessor bracketData = new BracketProcessor("teams.txt");
 	
-	// Team[][] teamRounds = bracketData.getData
+	//Team[][] teamRounds = bracketData.getData
 	Team[][] teamRounds = { { new Team("1"), new Team("8"), new Team("3"), new Team("6"), 
 		new Team("4"), new Team("5"), new Team("2"), new Team("7") },
 	{ new Team("TBD"), new Team("TBD"),  new Team("TBD"),  new Team("TBD")}, 
