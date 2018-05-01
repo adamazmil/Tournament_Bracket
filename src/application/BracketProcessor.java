@@ -34,13 +34,16 @@ public class BracketProcessor implements BracketProcessorADT {
 				teamList[j] = new Team(teamsAsString[j]);
 			}
 			teamRounds = new Team[(int) (Math.log(teamList.length) / Math.log(2)) + 1][];
+			teamLabels = new HBox[(int) (Math.log(teamList.length) / Math.log(2)) + 1][];
 			// System.out.println((int)(Math.log(teamList.length)/Math.log(2)));
 			for (int i = 0; i < teamRounds.length; i++) {
 				if (i == 0) {
 					teamRounds[i] = teamList;
+					teamLabels[i] = new HBox[teamList.length];
 				}
 				else {
 					teamRounds[i] = new Team[teamList.length / (int) (Math.pow(2, i))];
+					teamLabels[i] = new HBox[teamList.length / (int) (Math.pow(2, i))];
 				}
 			}
 			this.numberOfTeams = teamList.length;
