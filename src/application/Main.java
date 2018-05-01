@@ -20,6 +20,11 @@ public class Main extends Application {
 								new Team("4"), new Team("5"), new Team("2"), new Team("7") },
             				{ null, null, null, null}, 
             				{ null, null} };
+	
+	HBox[][] teamLabels = { { null, null, null, null, null, null, null, null},
+							{ null, null, null, null}, 
+							{ null, null} };
+	
 
     BorderPane[] rounds = new BorderPane[teamRounds.length];
 
@@ -41,7 +46,7 @@ public class Main extends Application {
                 VBox roundRight = new VBox();
                 roundRight.setPadding(new Insets(50 * i, 50, 0, 50));
                 for (int j = 0; j < teamRounds[i].length / 2; j += 2) {
-                	roundLeft.getChildren().add(makeGames(teamRounds[i][j], teamRounds[i][j + 1], j, j));
+                	roundLeft.getChildren().add(makeGames(teamRounds[i][j], teamRounds[i][j + 1], i, j));
                 }
                 for (int j = teamRounds[i].length / 2; j < teamRounds[i].length; j += 2) {
                     roundRight.getChildren().add(makeGames(teamRounds[i][j], teamRounds[i][j + 1], i, j));
@@ -56,6 +61,8 @@ public class Main extends Application {
                     .add(makeGames(teamRounds[teamRounds.length - 1][0], 
                     		teamRounds[teamRounds.length - 1][1], teamRounds.length - 1, 0));
             rounds[rounds.length - 1].setCenter(lastRound);
+            
+            teamLabels[1][0].getChildren().set(0, new Label("SUCCESS"));
 
             Scene scene = new Scene(rounds[0], 1366, 900);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -68,7 +75,7 @@ public class Main extends Application {
             instruction.setWrapText(true);
             instructionBox.getChildren().add(instruction);
             rounds[0].setTop(instructionBox);
-
+            
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {
@@ -89,6 +96,8 @@ public class Main extends Application {
         inputTeam1.setOnAction(e -> team1.setScore(Integer.parseInt(inputTeam1.getText())));
 //        inputTeam1.setOnAction(e -> System.out.println("works"));
         teamField1.getChildren().addAll(teamName1, inputTeam1);
+        
+        teamLabels[round][gameIndex] = teamField1;
 
         HBox teamField2 = new HBox();
         String name2 = (team2 == null) ? "TBD" : team2.getName(); 
@@ -98,6 +107,8 @@ public class Main extends Application {
         inputTeam2.setOnAction(e -> team2.setScore(Integer.parseInt(inputTeam2.getText())));
 //        inputTeam2.setOnAction(e -> System.out.println("works"));
         teamField2.getChildren().addAll(teamName2, inputTeam2);
+        
+        teamLabels[round][gameIndex + 1] = teamField1;
         
         HBox submitBox = new HBox();
         submitBox.setPadding(new Insets(0, 0, 0, 50));
@@ -110,11 +121,14 @@ public class Main extends Application {
   
         button.setOnAction(e -> { bracketData.advanceRound(team1, team2, round, gameIndex);
         						  button.setDisable(true);
+        						  
         						});
 //        button.setOnAction(e -> System.out.println("works"));
         submitBox.getChildren().addAll(button);
 
         vBox.getChildren().addAll(teamField1, submitBox, teamField2);
+        
+//        teamField2.getChildren().set(0, new Label("team WINNER"));
 
         return vBox;
     }
