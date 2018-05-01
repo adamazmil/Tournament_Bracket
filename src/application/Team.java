@@ -1,19 +1,25 @@
 package application;
 
+import javafx.scene.control.Label;
+
 public class Team {
-    private String name;
+    private Label name;
     private int score;
 
     public Team(String name) {
-        this.name = name;
+        this.name = new Label(name);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Label getNameLabel() {
+    	return name;
     }
-
-    public String getName() {
-        return name;
+    
+    public void setNameLabel(String name) {
+        this.name.setText(name);;
+    }
+    
+    public String getNameString() {
+    	return name.getText();
     }
 
     public void setScore(int score) {

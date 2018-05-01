@@ -15,17 +15,12 @@ import javafx.scene.text.Font;
 public class Main extends Application {
 	
 	BracketProcessor bracketData = new BracketProcessor("teams.txt");
-    // Team[][] teamRounds = bracketData.getData();
+	
+	// Team[][] teamRounds = bracketData.getData
 	Team[][] teamRounds = { { new Team("1"), new Team("8"), new Team("3"), new Team("6"), 
-								new Team("4"), new Team("5"), new Team("2"), new Team("7") },
-            				{ null, null, null, null}, 
-            				{ null, null} };
-	
-	// HBox[][] teamLabels = bracketData.getTeamLabels();
-	HBox[][] teamLabels = { { null, null, null, null, null, null, null, null},
-							{ null, null, null, null}, 
-							{ null, null} };
-	
+		new Team("4"), new Team("5"), new Team("2"), new Team("7") },
+	{ new Team("TBD"), new Team("TBD"),  new Team("TBD"),  new Team("TBD")}, 
+	{  new Team("TBD"),  new Team("TBD")} };
 
     BorderPane[] rounds = new BorderPane[teamRounds.length];
 
@@ -64,7 +59,7 @@ public class Main extends Application {
             rounds[rounds.length - 1].setCenter(lastRound);
             
             // testing advanceRound
-            teamLabels[1][0].getChildren().set(0, new Label("SUCCESS"));
+            teamRounds[1][0].setNameLabel("HELLO");
 
             Scene scene = new Scene(rounds[0], 1366, 900);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -91,26 +86,16 @@ public class Main extends Application {
         vBox.setPadding(new Insets(0, 0, 50, 0));
 
         HBox teamField1 = new HBox();
-        String name1 = (team1 == null) ? "TBD" : team1.getName(); 
-        Label teamName1 = new Label(name1 + "  ");
         TextField inputTeam1 = new TextField();
         inputTeam1.setPromptText("Enter team scores");
         inputTeam1.setOnAction(e -> team1.setScore(Integer.parseInt(inputTeam1.getText())));
-//        inputTeam1.setOnAction(e -> System.out.println("works"));
-        teamField1.getChildren().addAll(teamName1, inputTeam1);
+        teamField1.getChildren().addAll(team1.getNameLabel(), inputTeam1);
         
-        teamLabels[round][gameIndex] = teamField1;
-
         HBox teamField2 = new HBox();
-        String name2 = (team2 == null) ? "TBD" : team2.getName(); 
-        Label teamName2 = new Label(name2 + "  ");
         TextField inputTeam2 = new TextField();
         inputTeam2.setPromptText("Enter team scores");
         inputTeam2.setOnAction(e -> team2.setScore(Integer.parseInt(inputTeam2.getText())));
-//        inputTeam2.setOnAction(e -> System.out.println("works"));
-        teamField2.getChildren().addAll(teamName2, inputTeam2);
-        
-        teamLabels[round][gameIndex + 1] = teamField1;
+        teamField2.getChildren().addAll(team2.getNameLabel(), inputTeam2);
         
         HBox submitBox = new HBox();
         submitBox.setPadding(new Insets(0, 0, 0, 50));
@@ -124,7 +109,6 @@ public class Main extends Application {
         button.setOnAction(e -> { bracketData.advanceRound(team1, team2, round, gameIndex);
         						  button.setDisable(true);
         						});
-//        button.setOnAction(e -> System.out.println("works"));
         submitBox.getChildren().addAll(button);
 
         vBox.getChildren().addAll(teamField1, submitBox, teamField2);

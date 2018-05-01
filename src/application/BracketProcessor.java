@@ -12,7 +12,6 @@ public class BracketProcessor implements BracketProcessorADT {
 	private Team[] teamList;
 	private int numberOfTeams;
 	private Team[][] teamRounds;
-	private HBox[][] teamLabels;
 
 	/**
 	 * Constructor for this class. Initializes instances variables to set the
@@ -50,7 +49,7 @@ public class BracketProcessor implements BracketProcessorADT {
 					if (teamRounds[i][j] == null) {
 						System.out.print("null");
 					} else {
-						System.out.print(teamRounds[i][j].getName());
+						System.out.print(teamRounds[i][j].getNameString());
 					}
 				}
 				System.out.println();
@@ -72,20 +71,15 @@ public class BracketProcessor implements BracketProcessorADT {
 		return teamRounds[0];
 	}
 
-	public int advanceRound(Team team1, Team team2, int round, int gameIndex) {
+	public boolean advanceRound(Team team1, Team team2, int round, int gameIndex) {
 		Team winner = (team1.getScore() > team2.getScore()) ? team1 : team2;
 		int winnerPosition = gameIndex / 2;
-		teamRounds[round + 1][winnerPosition] = winner;
-		teamLabels[round + 1][winnerPosition].getChildren().set(0, new Label(winner.getName()));
-		return winnerPosition;
+		teamRounds[round + 1][winnerPosition].setNameLabel(winner.getNameString());
+		return true;
 	}
 
 	public Team[][] getData() {
 		return teamRounds;
-	}
-
-	public HBox[][] getTeamLabels() {
-		return teamLabels;
 	}
 
 }
