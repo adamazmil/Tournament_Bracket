@@ -5,5 +5,6 @@ public interface BracketProcessorADT  {
 
     public void advanceRound(Team team1, Team team2, int round, int gameIndex); 
     
-    public Team[] getData(int index);
+    public Match[] getData(int index);
+    
 }

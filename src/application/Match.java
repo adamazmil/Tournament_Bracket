@@ -17,6 +17,9 @@ public class Match {
     private Button button;
     private TextField text1;
     private TextField text2;
+    private BracketProcessor bracket;
+    private int round;
+    private int gameIndex;
     
     Team team1;
     Team team2;
@@ -42,7 +45,7 @@ public class Match {
         
         //makes first hbox with first team name and score field
         HBox teamField1 = new HBox();
-        String name1 = (team1 == null) ? "TBD" : team1.getName(); 
+        String name1 = (team1 == null) ? "TBD" : team1.getName();
         team1Label = new Label(name1 + "  ");
         text1 = new TextField();
         text1.setPromptText("Enter team scores");
@@ -52,11 +55,11 @@ public class Match {
         //makes second hbox with second team name and score field
         HBox teamField2 = new HBox();
         String name2 = (team2 == null) ? "TBD" : team2.getName(); 
-        team2Label = new Label(name1 + "  ");
+        team2Label = new Label(name2 + "  ");
         text2 = new TextField();
         text2.setPromptText("Enter team scores");
-        text2.setOnAction(e -> team1.setScore(Integer.parseInt(text2.getText())));
-        teamField1.getChildren().addAll(team2Label, text2);
+        text2.setOnAction(e -> team2.setScore(Integer.parseInt(text2.getText())));
+        teamField2.getChildren().addAll(team2Label, text2);
         
         
         BooleanBinding booleanBind = text1.textProperty().isEmpty()
@@ -64,25 +67,45 @@ public class Match {
         button.disableProperty().bind(booleanBind);
   
         
-        button.setOnAction(e -> { bracket.advanceRound(team1, team2, round, gameIndex);
-                                  button.setDisable(true);
+        button.setOnAction(e -> { 
+            bracket.advanceRound(team1, team2, round, gameIndex);
+                                  //button.setDisable(true);
                                 });
         
         container.getChildren().addAll(teamField1, submitBox, teamField2);
+        this.bracket = bracket;
+        this.gameIndex = gameIndex;
+        this.round = round;
     }
     
     public void setTeam1(Team team1) {
     	this.team1 = team1;
-    	this.team1Label = new Label(team1.getName());
+    	this.team1Label.setText(team1.getName());
+    	resetButton();
     }
     
     public void setTeam2(Team team2) {
     	this.team2 = team2;
-    	this.team2Label = new Label(team2.getName());
+    	this.team2Label.setText(team2.getName());
+    	resetButton();
+    }
+    
+    private void resetButton() {
+        button.setOnAction(e -> { 
+            bracket.advanceRound(team1, team2, round, gameIndex);
+                                  //button.setDisable(true);
+                                });
     }
     
     public VBox getContainer() {
         return container;
     }
     
+    @Override
+    public String toString() {
+        if (team1 == null || team2 == null) {
+            return "undecided match";
+        }
+        return team1.getName() + " vs " + team2.getName();
+    }
 }

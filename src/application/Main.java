@@ -17,10 +17,11 @@ import javafx.scene.text.Font;
     
 public class Main extends Application {
     
-	// Match[][] gameRounds = BracketProcessor.getData
-    Match[][] gameRounds = {{new Match(new Team("8"), new Team("1"), 0, 0, null)}};
+    BracketProcessor processor = new BracketProcessor("teams.txt");
+	Match[] gameRounds = processor.getData(0);
+    //Match[][] gameRounds = {{new Match(new Team("8"), new Team("1"), 0, 0, null)}};
     
-    BorderPane[] rounds = new BorderPane[gameRounds.length];
+    BorderPane[] rounds = new BorderPane[processor.getRounds()];
     
     @Override
     public void start(Stage primaryStage) {
@@ -28,7 +29,7 @@ public class Main extends Application {
             primaryStage.setTitle("Tournament Bracket");
             primaryStage.getIcons().add(new Image("file:color-UWcrest-print.png"));
             
-            for (int i = 0; i < gameRounds.length; i++) {
+            for (int i = 0; i < rounds.length; i++) {
                 rounds[i] = new BorderPane();
                 if (i !=0) {
                     rounds[i-1].setCenter(rounds[i]);
@@ -42,23 +43,23 @@ public class Main extends Application {
                 roundRight.setPadding(new Insets(50*i, 50, 0, 50));
                 
                 // for the first half of the games
-                for (int j = 0; j < gameRounds[i].length / 2; j++) {
+                for (int j = 0; j < processor.getData(i).length / 2; j++) {
                 	// add match
-                    roundLeft.getChildren().addAll(gameRounds[i][j].getContainer());
+                    roundLeft.getChildren().addAll(processor.getData(i)[j].getContainer());
                 }
                 // for the second half of the games
-                for (int j = gameRounds[i].length / 2; j < gameRounds[i].length; j++) {
+                for (int j = processor.getData(i).length / 2; j < processor.getData(i).length; j++) {
                     // add match
-                	roundRight.getChildren().add(gameRounds[i][j].getContainer());
+                	roundRight.getChildren().add(processor.getData(i)[j].getContainer());
                 }
                 rounds[i].setLeft(roundLeft);
                 rounds[i].setRight(roundRight);
             }
             
             // add last match
-            rounds[rounds.length - 1].setCenter(gameRounds[gameRounds.length][0].getContainer());
+            //rounds[rounds.length - 1].setCenter(processor.getData(rounds.length-1)[0].getContainer());
           
-            Scene scene = new Scene(rounds[0],1366,900);
+            Scene scene = new Scene(rounds[0],1800,920);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             
             // instructions
@@ -79,7 +80,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        BracketProcessor bracketData = new BracketProcessor("teams.txt");
     	launch(args);
     }
 }
