@@ -15,12 +15,13 @@ import javafx.scene.text.Font;
 public class Main extends Application {
 	
 	BracketProcessor bracketData = new BracketProcessor("teams.txt");
-    //Team[][] teamRounds = bracketData.getData();
+    // Team[][] teamRounds = bracketData.getData();
 	Team[][] teamRounds = { { new Team("1"), new Team("8"), new Team("3"), new Team("6"), 
 								new Team("4"), new Team("5"), new Team("2"), new Team("7") },
             				{ null, null, null, null}, 
             				{ null, null} };
 	
+	// HBox[][] teamLabels = bracketData.getTeamLabels();
 	HBox[][] teamLabels = { { null, null, null, null, null, null, null, null},
 							{ null, null, null, null}, 
 							{ null, null} };
@@ -62,6 +63,7 @@ public class Main extends Application {
                     		teamRounds[teamRounds.length - 1][1], teamRounds.length - 1, 0));
             rounds[rounds.length - 1].setCenter(lastRound);
             
+            // testing advanceRound
             teamLabels[1][0].getChildren().set(0, new Label("SUCCESS"));
 
             Scene scene = new Scene(rounds[0], 1366, 900);
@@ -121,14 +123,11 @@ public class Main extends Application {
   
         button.setOnAction(e -> { bracketData.advanceRound(team1, team2, round, gameIndex);
         						  button.setDisable(true);
-        						  
         						});
 //        button.setOnAction(e -> System.out.println("works"));
         submitBox.getChildren().addAll(button);
 
         vBox.getChildren().addAll(teamField1, submitBox, teamField2);
-        
-//        teamField2.getChildren().set(0, new Label("team WINNER"));
 
         return vBox;
     }
