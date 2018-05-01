@@ -8,6 +8,7 @@ public class Team {
 
     public Team(String name) {
         this.name = new Label(name);
+        this.score = -1;
     }
 
     public Label getNameLabel() {
