@@ -58,7 +58,7 @@ public class Main extends Application {
                     		teamRounds[teamRounds.length - 1][1], teamRounds.length - 1, 0));
             rounds[rounds.length - 1].setCenter(lastRound);
             
-            // testing advanceRound
+            // testing advanceRound.
             teamRounds[1][0].setNameLabel("HELLO");
 
             Scene scene = new Scene(rounds[0], 1366, 900);
