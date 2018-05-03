@@ -22,6 +22,7 @@ public class Main extends Application {
 
     BorderPane[] rounds;
  
+    //tests
     @Override
     public void start(Stage primaryStage) {
         try {
