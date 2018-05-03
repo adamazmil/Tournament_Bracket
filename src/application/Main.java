@@ -18,9 +18,11 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -121,10 +123,20 @@ public class Main extends Application {
 				rounds[0].setTop(instructionBox);
 			}
 
-            Scene scene = new Scene(rounds[0], 1920, 1080);
+	        Group root = new Group();
+	        Scene scene = new Scene(root, 1920, 1080);
+	        primaryStage.setScene(scene);
+
 	        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             
-            primaryStage.setScene(scene);
+            ScrollPane s1 = new ScrollPane();
+            s1.setPannable(true);
+            s1.setPrefSize(1380, 720);
+            s1.setContent(rounds[0]);
+            
+
+            root.getChildren().add(s1);
+
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
