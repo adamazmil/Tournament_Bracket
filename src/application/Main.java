@@ -70,7 +70,7 @@ public class Main extends Application {
 	
 	            VBox lastRound = new VBox();
 	            lastRound.setAlignment(Pos.CENTER);
-	            lastRound.setPadding(new Insets(0, 0, 0, 540-(75*(rounds.length))));
+	            //lastRound.setPadding(new Insets(0, 0, 0, 540-(75*(rounds.length))));
 	            lastRound.getChildren()
 	                    .add(makeGames(bracketData.getData(rounds.length-1)[0], 
 	                            bracketData.getData(rounds.length-1)[1], rounds.length - 1, 0));
@@ -163,9 +163,6 @@ public class Main extends Application {
         			&& !team1.getNameString().equals("TBD") && !team2.getNameString().equals("TBD")) {
                 bracketData.advanceRound(team1, team2, round, gameIndex);
                 if (round == rounds.length-1) {
-                	//vBox.getChildren().add(processWinners());
-                	rounds[0].setBottom(processWinners());
-                	//bracketData.print();
                 	VBox leaderBoardBox = processWinners();
                 	leaderBoardBox.setId("leaderBoard");
                 	rounds[0].setBottom(leaderBoardBox);
