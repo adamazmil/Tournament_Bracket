@@ -1,3 +1,16 @@
+///////////////////////////////////////////////////////////////////////////////
+// 
+// Title:            A-TEAM Program 5
+// Files:            Main.java, Team.java, bracketProcessor.java,
+//						bracketProcessorADT.java
+// Semester:         CS400 Spring 2018
+//
+// Authors:           John Chen, Justin Tan, Jun Lin, Adam Azmil
+// Lecturer's Name:   Deb Deppler
+// Group Number:      24
+//
+///////////////////////////////////////////////////////////////////////////////
+
 package application;
 
 import java.io.IOException;
@@ -34,7 +47,15 @@ public class BracketProcessor implements BracketProcessorADT {
             
             String[] teamsAsString = teamStream.toArray(String[]::new);
             Team[] teamList = new Team[teamsAsString.length];
-            
+            if (teamsAsString.length == 0) {
+                teamRounds = null;
+                return;
+            }
+            if (teamsAsString.length == 1) {
+                teamRounds = new Team[1][1];
+                teamRounds[0][0] = new Team(teamsAsString[0]);
+                return;
+            }
             // copys stream to array 1:1 (no seeding)
             for (int j = 0; j < teamList.length; j++) {
                 teamList[j] = new Team(teamsAsString[j]);
@@ -58,6 +79,7 @@ public class BracketProcessor implements BracketProcessorADT {
             
             this.numberOfTeams = teamList.length;
             teamRounds[0] = seed();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,10 +109,10 @@ public class BracketProcessor implements BracketProcessorADT {
                 teamSeed[roundItterator++]= teamList[endPoint-i];
                 teamSeed[roundItterator++]= teamList[midPoint1-i];
                 teamSeed[roundItterator++]= teamList[midPoint2+i];
-                teamSeed[roundItterator++]= teamList[numberOfTeams/4-1-i];
+                teamSeed[roundItterator++]= teamList[((numberOfTeams/4)-1)-i];
                 teamSeed[roundItterator++]= teamList[(numberOfTeams/4)*3+i];
                 teamSeed[roundItterator++]= teamList[numberOfTeams/4+i];
-                teamSeed[roundItterator++]= teamList[(numberOfTeams/4)*3-1-i];
+                teamSeed[roundItterator++]= teamList[(((numberOfTeams/4)*3)-1)-i];
             }
         }
         else if(numberOfTeams==4){
