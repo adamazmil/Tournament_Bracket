@@ -43,20 +43,23 @@ public class Main extends Application {
         try {
             primaryStage.setTitle("Tournament Bracket");
             primaryStage.getIcons().add(new Image("file:color-UWcrest-print.png"));
+            
             String oneTeam = "";
 	        if (firstRound == null) { // if there are no teams 
             	Label message = new Label("NO TEAMS ENTERED - 0 WINNERS");
-            	message.setFont(new Font("Arial", 25));
+            	message.setId("titleMessage");
 	        	rounds = new BorderPane[1];
 	        	rounds[0] = new BorderPane();
 	        	rounds[0].setCenter(message);
+	        	
             } else if (firstRound.length == 1) { // if there is only one team
             	oneTeam = firstRound[0].getNameString();
             	Label message = new Label("Team " + oneTeam + " wins by default");
-            	message.setFont(new Font("Arial", 25));
+            	message.setId("titleMessage");
             	rounds = new BorderPane[1];
                 rounds[0] = new BorderPane();
                 rounds[0].setCenter(message);
+            
             } else { // if there are two or more teams
 	            // create a BorderPane for each round 
             	rounds = new BorderPane[(int)(Math.log(firstRound.length)/Math.log(2))];
