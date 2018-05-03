@@ -30,6 +30,17 @@ public class BracketProcessor implements BracketProcessorADT {
 					.map(String::toLowerCase);
 			String[] teamsAsString = teamStream.toArray(String[]::new);
 			Team[] teamList = new Team[teamsAsString.length];
+			
+			if (teamsAsString.length == 0) {
+			    teamRounds = null;
+			    return;
+			}
+			if (teamsAsString.length == 1) {
+			    teamRounds = new Team[1][1];
+			    teamRounds[0][0] = new Team(teamsAsString[0]);
+			    return;
+			}
+			
 			// copys stream to array 1:1 (no seeding)
 			for (int j = 0; j < teamList.length; j++) {
 				teamList[j] = new Team(teamsAsString[j]);
@@ -88,6 +99,9 @@ public class BracketProcessor implements BracketProcessorADT {
 	}
 
 	public Team[] getData(int index) {
+	    if (teamRounds == null) {
+	        return null;
+	    }
 		return teamRounds[index];
 	}
 

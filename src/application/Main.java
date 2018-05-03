@@ -20,35 +20,44 @@ public class Main extends Application {
 	
 	Team[] firstRound = bracketData.getData(0);
 
-    BorderPane[] rounds = new BorderPane[(int)(Math.log(firstRound.length)/Math.log(2))];
+    BorderPane[] rounds;
 
     @Override
     public void start(Stage primaryStage) {
         try {
             primaryStage.setTitle("Tournament Bracket");
             
-	        for (int i = 0; i < rounds.length; i++) {
+            String oneTeam = "";
+	        if (firstRound == null) {
+            	Label message = new Label("NO TEAMS ENTERED - 0 WINNERS");
+            	message.setFont(new Font("Arial", 25));
+	        	rounds = new BorderPane[1];
+	        	rounds[0] = new BorderPane();
+	        	rounds[0].setCenter(message);
+            } else if (firstRound.length == 1) {
+            	oneTeam = firstRound[0].getNameString();
+            	Label message = new Label("Team " + oneTeam + " wins by default");
+            	message.setFont(new Font("Arial", 25));
+            	rounds = new BorderPane[1];
+                rounds[0] = new BorderPane();
+                rounds[0].setCenter(message);
+            }
+            
+	         else {
+	             rounds = new BorderPane[(int)(Math.log(firstRound.length)/Math.log(2))];
+	             for (int i = 0; i < rounds.length; i++) {
 	        	rounds[i] = new BorderPane();
 	            	if (i != 0) {
 	            		rounds[i - 1].setCenter(rounds[i]);
 	            }
 	        }
-            
-	        String oneTeam = "";
-	        if (firstRound.length == 0) {
-            	Label message = new Label("NO TEAMS ENTERED - 0 WINNERS");
-            	message.setFont(new Font("Arial", 25));
-	        	rounds[rounds.length - 1].setCenter(message);
-            } else if (firstRound.length == 1) {
-            	oneTeam = firstRound[0].getNameString();
-            } else {
 	            for (int i = 0; i < rounds.length - 1; i++) {
 	                VBox roundLeft = new VBox();
 	                roundLeft.setAlignment(Pos.CENTER);
 	                roundLeft.setPadding(new Insets(0, 0, 0, 50));
 	                VBox roundRight = new VBox();
 	                roundRight.setAlignment(Pos.CENTER);
-	                roundRight.setPadding(new Insets(0, 0, 0, 50));
+	                roundRight.setPadding(new Insets(0, 50, 0, 0));
 	                Team[] tempRound = bracketData.getData(i);
 	                for (int j = 0; j < tempRound.length / 2; j += 2) {
 	                	roundLeft.getChildren().add(makeGames(tempRound[j], tempRound[j + 1], i, j));
@@ -67,26 +76,28 @@ public class Main extends Application {
 	                    .add(makeGames(bracketData.getData(rounds.length-1)[0], 
 	                            bracketData.getData(rounds.length-1)[1], rounds.length - 1, 0));
 	            rounds[rounds.length - 1].setCenter(lastRound);
+	            
+	            VBox leaderBoardBox = new VBox();
+	            leaderBoardBox.setPadding(new Insets(0, 30, 130, 200));
+	            leaderBoardBox.getChildren().addAll(new Label("LEADER BOARD:"), new Label("1. " + oneTeam),
+	                    new Label("2."), new Label("3."));
+	            
+	            rounds[rounds.length - 1].setBottom(leaderBoardBox);
+
+	            
+
+	            VBox instructionBox = new VBox();
+	            instructionBox.setPadding(new Insets(20, 10, 50, 20));
+	            Label instruction = new Label("Enter scores for the matchup and click submit to lock in scores. "
+	                    + "Once all matches in a round are entered, winning teams will advance and new scores can be entered.");
+	            instruction.setFont(new Font("Arial", 25));
+	            instruction.setWrapText(true);
+	            instructionBox.getChildren().add(instruction);
+	            rounds[0].setTop(instructionBox);
             }
 	        
-            VBox leaderBoardBox = new VBox();
-            leaderBoardBox.setPadding(new Insets(0, 30, 130, 200));
-            leaderBoardBox.getChildren().addAll(new Label("LEADER BOARD:"), new Label("1. " + oneTeam),
-            		new Label("2."), new Label("3."));
-            
-            rounds[rounds.length - 1].setBottom(leaderBoardBox);
-
             Scene scene = new Scene(rounds[0], 1920, 1080);
-            scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-
-            VBox instructionBox = new VBox();
-            instructionBox.setPadding(new Insets(20, 10, 50, 20));
-            Label instruction = new Label("Enter scores for the matchup and click submit to lock in scores. "
-                    + "Once all matches in a round are entered, winning teams will advance and new scores can be entered.");
-            instruction.setFont(new Font("Arial", 25));
-            instruction.setWrapText(true);
-            instructionBox.getChildren().add(instruction);
-            rounds[0].setTop(instructionBox);
+	        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -130,7 +141,7 @@ public class Main extends Application {
                 Platform.runLater(() -> { 
                     if (n.length()>o.length()) {
                         Platform.runLater(() -> { 
-                            inputTeam1.setText(o);
+                            inputTeam2.setText(o);
                         }); 
                     }
                 }); 
