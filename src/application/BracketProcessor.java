@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -25,7 +26,7 @@ public class BracketProcessor implements BracketProcessorADT {
     //2d array holding all rounds of the tournament, 
     //last round is only champion, first round is all teams, eliminates half of the teams per round
     private Team[][] teamRounds; 
-    
+
     //list of teams leaderboard, constructed in reverse order
     private List<Team> leaderBoard = new ArrayList<Team>();
 
@@ -43,8 +44,8 @@ public class BracketProcessor implements BracketProcessorADT {
                     .filter(x -> x != null && !x.equals(""))
                     // make all of the Strings in the Stream lowercase
                     .map(String::toLowerCase);
-            
-            
+
+
             String[] teamsAsString = teamStream.toArray(String[]::new);
             Team[] teamList = new Team[teamsAsString.length];
             if (teamsAsString.length == 0) {
@@ -60,10 +61,10 @@ public class BracketProcessor implements BracketProcessorADT {
             for (int j = 0; j < teamList.length; j++) {
                 teamList[j] = new Team(teamsAsString[j]);
             }
-            
+
             //calculates row length of round 2d array
             teamRounds = new Team[(int) (Math.log(teamList.length) / Math.log(2)) + 1][];
-            
+
             //fills first round with given teams, and all other rounds with TBD teams
             for (int i = 0; i < teamRounds.length; i++) {
                 if (i == 0) {
@@ -76,7 +77,7 @@ public class BracketProcessor implements BracketProcessorADT {
                     }
                 }
             }
-            
+
             this.numberOfTeams = teamList.length;
             teamRounds[0] = seed();
 
@@ -84,7 +85,7 @@ public class BracketProcessor implements BracketProcessorADT {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Seeds first round inside 2d array implementation of bracketprocessor (1st v last, 2nd v 2nd to last, etc in alternating order)
      * assuming inputted array is already in positional order
@@ -92,41 +93,30 @@ public class BracketProcessor implements BracketProcessorADT {
      * @return  array of seeded teams 
      */
     public Team[] seed() {
-      //seed variables
-        Team[] teamList = teamRounds[0];
-        int midPoint1 = numberOfTeams/2-1;
-        int midPoint2 = numberOfTeams/2;
-        int startPoint = 0;
-        int endPoint = numberOfTeams-1;
-        int roundItterator=0;
+        //seed variables
+        ArrayList<Team> list = new ArrayList<Team>(Arrays.asList(teamRounds[0]));
+        //starting seed, only first 2 indices
+        Team[] base = {teamRounds[0][0], teamRounds[0][1]};
+
         
-        //new array to hold seeded teams
-        
-        Team [] teamSeed = new Team[numberOfTeams];
-        if(numberOfTeams>=8) {
-            for(int i=0; i<numberOfTeams/8;i++) {
-                teamSeed[roundItterator++]= teamList[startPoint+i];
-                teamSeed[roundItterator++]= teamList[endPoint-i];
-                teamSeed[roundItterator++]= teamList[midPoint1-i];
-                teamSeed[roundItterator++]= teamList[midPoint2+i];
-                teamSeed[roundItterator++]= teamList[((numberOfTeams/4)-1)-i];
-                teamSeed[roundItterator++]= teamList[(numberOfTeams/4)*3+i];
-                teamSeed[roundItterator++]= teamList[numberOfTeams/4+i];
-                teamSeed[roundItterator++]= teamList[(((numberOfTeams/4)*3)-1)-i];
+        //iterates log base 2 of size then minus 1 (ex: size 8, iterates 2 times) 
+        //for each iteration, makes a new array of 2 times previous length, and fills in every other index with the contents of old array
+        //old: {1, 2} --> new: {1, _, 2, _}
+        //then, fills in empty spaces with corresponding team taken from ordered team list (first corresponds to last, second to last corresponds to second, etc.
+        for (int i = 0; i < (Math.log(list.size())/Math.log(2)) - 1; i++) {
+            ArrayList<Team> iter = new ArrayList<Team>( list.subList(0, (int)Math.pow(2, i+2)));
+            Team[] newlist = new Team[base.length*2];
+            for (int j = 0; j < base.length; j++) {
+                //fill every other space with contents of previous (base) array
+                newlist[j*2] = base[j];
+                //fill in empty space with corresponding entry from full list
+                newlist[(j*2)+1] = iter.get((iter.size() - 1) - iter.indexOf(base[j]));
             }
+            //make base the new previous array
+            base = newlist;
         }
-        else if(numberOfTeams==4){
-            for(int i=0; i<numberOfTeams/4;i++) {
-                
-                teamSeed[roundItterator++]= teamList[startPoint+i];
-                teamSeed[roundItterator++]= teamList[endPoint-i];
-                teamSeed[roundItterator++]= teamList[midPoint1-i];
-                teamSeed[roundItterator++]= teamList[midPoint2+i];
-            }
-        } else {
-            return teamList;
-        }
-        return teamSeed;
+
+        return base;
     }
 
     /**
@@ -140,13 +130,13 @@ public class BracketProcessor implements BracketProcessorADT {
      */
     public void advanceRound(Team team1, Team team2, int round, int gameIndex) {
         Team winner = (team1.getScore() > team2.getScore()) ? team1 : team2;
-        
+
         //calculates 3rd place winner in semifinals
         if (round >= teamRounds.length - 3) {
             Team loser = (team1.getNameString().equals(winner.getNameString())) ? team2 : team1;
             leaderBoard.add(loser);
         }
-        
+
         //advances team with higher score
         int winnerPosition = gameIndex / 2;
         teamRounds[round + 1][winnerPosition].setNameLabel(winner.getNameString());
