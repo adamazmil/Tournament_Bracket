@@ -7,10 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-
-//test
 public class BracketProcessor implements BracketProcessorADT {
     private int numberOfTeams;
     private Team[][] teamRounds;
@@ -66,6 +62,7 @@ public class BracketProcessor implements BracketProcessorADT {
             e.printStackTrace();
         }
     }
+    
     public Team[] seed() {
       //seed variables
         Team[] teamList = teamRounds[0];
@@ -78,7 +75,6 @@ public class BracketProcessor implements BracketProcessorADT {
         Team [] teamSeed = new Team[numberOfTeams];
         if(numberOfTeams>=8) {
             for(int i=0; i<numberOfTeams/8;i++) {
-                
                 teamSeed[roundItterator++]= teamList[startPoint+i];
                 teamSeed[roundItterator++]= teamList[endPoint-i];
                 teamSeed[roundItterator++]= teamList[midPoint1-i];
@@ -87,7 +83,6 @@ public class BracketProcessor implements BracketProcessorADT {
                 teamSeed[roundItterator++]= teamList[(numberOfTeams/4)*3+i];
                 teamSeed[roundItterator++]= teamList[numberOfTeams/4+i];
                 teamSeed[roundItterator++]= teamList[(numberOfTeams/4)*3-1-i];
-
             }
         }
         else if(numberOfTeams==4){
@@ -97,13 +92,10 @@ public class BracketProcessor implements BracketProcessorADT {
                 teamSeed[roundItterator++]= teamList[endPoint-i];
                 teamSeed[roundItterator++]= teamList[midPoint1-i];
                 teamSeed[roundItterator++]= teamList[midPoint2+i];
-                
-
             }
         } else {
             return teamList;
         }
-        
         return teamSeed;
     }
 
