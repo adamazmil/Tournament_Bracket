@@ -59,6 +59,12 @@ public class Main extends Application {
                     .add(makeGames(bracketData.getData(rounds.length-1)[0], 
                             bracketData.getData(rounds.length-1)[1], rounds.length - 1, 0));
             rounds[rounds.length - 1].setCenter(lastRound);
+            
+            VBox leaderBoardBox = new VBox();
+            leaderBoardBox.setPadding(new Insets(0, 30, 130, 200));
+            leaderBoardBox.getChildren().addAll(new Label("LEADER BOARD:"), new Label("1."),
+            		new Label("2."), new Label("3."));
+            rounds[rounds.length - 1].setBottom(leaderBoardBox);
 
             Scene scene = new Scene(rounds[0], 1920, 1080);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -138,8 +144,8 @@ public class Main extends Application {
         			&& !team1.getNameString().equals("TBD") && !team2.getNameString().equals("TBD")) {
                 bracketData.advanceRound(team1, team2, round, gameIndex);
                 if (round == rounds.length-1) {
-                	vBox.getChildren().add(processWinners());
-                	//rounds[rounds.length - 1].setBottom(processWinners());
+                	//vBox.getChildren().add(processWinners());
+                	rounds[rounds.length - 1].setBottom(processWinners());
                 }
                 button.setDisable(true);
                 inputTeam1.setDisable(true);
@@ -161,7 +167,7 @@ public class Main extends Application {
         		? leaderBoard.get(0) : leaderBoard.get(1);
         		
         VBox vBox = new VBox();
-        vBox.setPadding(new Insets(50, 50, 50, 50));
+        vBox.setPadding(new Insets(0, 30, 130, 200));
         Label title = new Label("LEADER BOARD:");
         Label firstPlace = new Label("1. " + first.getNameString());
         Label secondPlace = new Label("2. " + second.getNameString());
@@ -169,20 +175,6 @@ public class Main extends Application {
         vBox.getChildren().addAll(title, firstPlace, secondPlace, thirdPlace);
         
         return vBox;
-        
-        
-        
-        
-        //        Team winner2 = (bracketData.getData(rounds.length - 2)[0].getNameString().equals(winner1.getNameString())) 
-//        		? bracketData.getData(rounds.length - 2)[1] : bracketData.getData(rounds.length - 2)[0];
-//        Team winner3 = new Team("temp");
-//        winner3.setScore(-1);
-//        for (int i = 0; i < bracketData.getData(rounds.length - 3).length; i++) {
-//        	if (!bracketData.getData(rounds.length - 3)[i].getNameString().equals(winner1) 
-//        			&&  !bracketData.getData(rounds.length - 3)[i].getNameString().equals(winner2))  {
-//        		winner3 = (bracketData.getData(rounds.length - 3)[i].getScore() > )
-//        	}
-//        }
     }
 
     public static void main(String[] args) {
