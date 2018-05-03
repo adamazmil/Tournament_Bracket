@@ -79,16 +79,7 @@ public class BracketProcessor implements BracketProcessorADT {
             
             this.numberOfTeams = teamList.length;
             teamRounds[0] = seed();
-            for (int i = 0; i < teamRounds.length; i++) {
-                for (int j = 0; j < teamRounds[i].length; j++) {
-                    if (teamRounds[i][j] == null) {
-                        System.out.print("null");
-                    } else {
-                        System.out.print(teamRounds[i][j].getNameString()+",");
-                    }
-                }
-                System.out.println();
-            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

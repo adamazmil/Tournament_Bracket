@@ -17,6 +17,8 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -129,12 +131,13 @@ public class Main extends Application {
 
 	        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             
+	        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+	        
             ScrollPane s1 = new ScrollPane();
             s1.setPannable(true);
-            s1.setPrefSize(1380, 720);
+            s1.setPrefSize(visualBounds.getWidth(), visualBounds.getHeight());
             s1.setContent(rounds[0]);
             
-
             root.getChildren().add(s1);
 
             primaryStage.show();

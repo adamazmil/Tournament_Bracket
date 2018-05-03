@@ -30,4 +30,5 @@
 #titleMessage {
 	-fx-font-family: "Century Gothic", "Arial";
 	-fx-font-size: 40px;
+	-fx-padding: 100; 
 } 
