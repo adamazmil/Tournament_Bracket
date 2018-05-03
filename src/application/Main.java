@@ -77,7 +77,7 @@ public class Main extends Application {
 	        // the last round game
 	        VBox lastRound = new VBox();
 	        lastRound.setAlignment(Pos.CENTER);
-	        //lastRound.setPadding(new Insets(0, 0, 0, 540-(75*(rounds.length))));
+	        lastRound.setPadding(new Insets(0, 960-(200*(rounds.length)), 0, 960-(200*(rounds.length))));
 	        lastRound.getChildren()
 	        		.add(makeGames(bracketData.getData(rounds.length-1)[0], 
 	        				bracketData.getData(rounds.length-1)[1], rounds.length - 1, 0));
