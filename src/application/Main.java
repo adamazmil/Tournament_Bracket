@@ -1,13 +1,30 @@
+///////////////////////////////////////////////////////////////////////////////
+// 
+// Title:            A-TEAM Program 5
+// Files:            Main.java, Team.java, BracketProcessor.java,
+//						BracketProcessorADT.java
+// Semester:         CS400 Spring 2018
+//
+// Authors:           John Chen, Justin Tan, Jun Lin, Adam Azmil
+// Lecturer's Name:   Deb Deppler
+// Group Number:      24
+//
+///////////////////////////////////////////////////////////////////////////////
+
 package application;
 import java.util.List;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -15,6 +32,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+// constructs the user interface of the Tournament Bracket
 public class Main extends Application {
 	
 	BracketProcessor bracketData = new BracketProcessor("teams.txt");
@@ -29,85 +47,99 @@ public class Main extends Application {
         try {
             primaryStage.setTitle("Tournament Bracket");
             primaryStage.getIcons().add(new Image("file:color-UWcrest-print.png"));
+            
             String oneTeam = "";
 	        if (firstRound == null) { // if there are no teams 
             	Label message = new Label("NO TEAMS ENTERED - 0 WINNERS");
-            	message.setFont(new Font("Arial", 25));
+            	message.setId("titleMessage");
 	        	rounds = new BorderPane[1];
 	        	rounds[0] = new BorderPane();
 	        	rounds[0].setCenter(message);
+	        	
             } else if (firstRound.length == 1) { // if there is only one team
             	oneTeam = firstRound[0].getNameString();
             	Label message = new Label("Team " + oneTeam + " wins by default");
-            	message.setFont(new Font("Arial", 25));
+            	message.setId("titleMessage");
             	rounds = new BorderPane[1];
                 rounds[0] = new BorderPane();
                 rounds[0].setCenter(message);
+            
             } else { // if there are two or more teams
-	            // create a BorderPane for each round 
+            	// create a BorderPane for each round 
             	rounds = new BorderPane[(int)(Math.log(firstRound.length)/Math.log(2))];
-	             for (int i = 0; i < rounds.length; i++) {
-	        	 rounds[i] = new BorderPane();
+	            for (int i = 0; i < rounds.length; i++) {
+	            	rounds[i] = new BorderPane();
 	            	if (i != 0) {
 	            		rounds[i - 1].setCenter(rounds[i]);
+	            	}
 	            }
-	        }
 	        
-	        // creates the games 
-	        for (int i = 0; i < rounds.length - 1; i++) {
-	        	VBox roundLeft = new VBox(); // stores the games on the left
-	            roundLeft.setAlignment(Pos.CENTER);
-	            roundLeft.setPadding(new Insets(0, 0, 0, 50));
-	            VBox roundRight = new VBox(); // stores the games on the right
-	            roundRight.setAlignment(Pos.CENTER);
-	            roundRight.setPadding(new Insets(0, 50, 0, 0));
-	            Team[] tempRound = bracketData.getData(i);
-	            // for the first half of the teams in round i
-	            for (int j = 0; j < tempRound.length / 2; j += 2) {
-	            	roundLeft.getChildren().add(makeGames(tempRound[j], tempRound[j + 1], i, j));
+	            // creates the games. Games allow user to input team scores and advance the winner 
+	            for (int i = 0; i < rounds.length - 1; i++) {
+	            	VBox roundLeft = new VBox(); // stores the games on the left
+	            	roundLeft.setAlignment(Pos.CENTER);
+	            	roundLeft.setPadding(new Insets(0, 0, 0, 50));
+	            	VBox roundRight = new VBox(); // stores the games on the right
+	            	roundRight.setAlignment(Pos.CENTER);
+	            	roundRight.setPadding(new Insets(0, 50, 0, 0));
+	            	Team[] tempRound = bracketData.getData(i);
+	            	// for the first half of the teams in round i
+	            	for (int j = 0; j < tempRound.length / 2; j += 2) {
+	            		roundLeft.getChildren().add(makeGames(tempRound[j], tempRound[j + 1], i, j));
+	            	}
+	            	//for the second half of the teams in round i
+	            	for (int j = tempRound.length / 2; j < tempRound.length; j += 2) {
+	            		roundRight.getChildren().add(makeGames(tempRound[j], tempRound[j + 1], i, j));
+	            	}
+	            	rounds[i].setLeft(roundLeft);
+	            	rounds[i].setRight(roundRight);
 	            }
-	            //for the second half of the teams in round i
-	            for (int j = tempRound.length / 2; j < tempRound.length; j += 2) {
-	            	roundRight.getChildren().add(makeGames(tempRound[j], tempRound[j + 1], i, j));
-	            }
-	            rounds[i].setLeft(roundLeft);
-	            rounds[i].setRight(roundRight);
-	        }
 	        	
-	        // the last round game
-	        VBox lastRound = new VBox();
-	        lastRound.setAlignment(Pos.CENTER);
-	        lastRound.setPadding(new Insets(0, 960-(200*(rounds.length)), 0, 960-(200*(rounds.length))));
-	        lastRound.getChildren()
-	        		.add(makeGames(bracketData.getData(rounds.length-1)[0], 
-	        				bracketData.getData(rounds.length-1)[1], rounds.length - 1, 0));
-	        rounds[rounds.length - 1].setCenter(lastRound);
-	            
-	        // the leader board
-	        VBox leaderBoardBox = new VBox();
-	        leaderBoardBox.setId("leaderBoard");
-	        leaderBoardBox.getChildren().addAll(new Label("LEADER BOARD:"),
-	        		new Label("1. " + oneTeam), new Label("2."), new Label("3."));
-	        rounds[rounds.length - 1].setBottom(leaderBoardBox);
-			leaderBoardBox.setAlignment(Pos.BOTTOM_CENTER);
-			rounds[0].setBottom(leaderBoardBox);
-			
-			// instructions
-			VBox instructionBox = new VBox();
-			instructionBox.setPadding(new Insets(20, 10, 50, 20));
-			Label instruction = new Label("Enter scores for the matchup and click "
-					+ "submit to lock in scores. Once all matches in a round are entered,"
-					+ " winning teams will advance and new scores can be entered.");
-			instruction.setId("instruction");
-			instruction.setWrapText(true);
-			instructionBox.getChildren().add(instruction);
-			rounds[0].setTop(instructionBox);
+		        // creates the last round game
+		        VBox lastRound = new VBox();
+		        lastRound.setAlignment(Pos.CENTER);
+		        lastRound.setPadding(new Insets(0, 960-(200*(rounds.length)), 0, 960-(200*(rounds.length))));
+		        lastRound.getChildren()
+		        		.add(makeGames(bracketData.getData(rounds.length-1)[0], 
+		        				bracketData.getData(rounds.length-1)[1], rounds.length - 1, 0));
+		        rounds[rounds.length - 1].setCenter(lastRound);
+		            
+		        // creates empty leader board
+		        VBox leaderBoardBox = new VBox();
+		        leaderBoardBox.setId("leaderBoard");
+		        leaderBoardBox.getChildren().addAll(new Label("LEADER BOARD:"),
+		        		new Label("1. " + oneTeam), new Label("2."), new Label("3."));
+		        rounds[rounds.length - 1].setBottom(leaderBoardBox);
+				leaderBoardBox.setAlignment(Pos.BOTTOM_CENTER);
+				rounds[0].setBottom(leaderBoardBox);
+				
+				// prints the instructions
+				VBox instructionBox = new VBox();
+				instructionBox.setPadding(new Insets(20, 10, 50, 20));
+				Label instruction = new Label("Enter scores for the matchup and click "
+						+ "submit to lock in scores. Once all matches in a round are entered,"
+						+ " winning teams will advance and new scores can be entered.");
+				instruction.setId("instruction");
+				instruction.setWrapText(true);
+				instructionBox.getChildren().add(instruction);
+				rounds[0].setTop(instructionBox);
 			}
 
-            Scene scene = new Scene(rounds[0], 1920, 1080);
+	        Group root = new Group();
+	        Scene scene = new Scene(root, 1920, 1080);
+	        primaryStage.setScene(scene);
+
 	        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             
-            primaryStage.setScene(scene);
+	        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+	        
+            ScrollPane s1 = new ScrollPane();
+            s1.setPannable(true);
+            s1.setPrefSize(visualBounds.getWidth(), visualBounds.getHeight());
+            s1.setContent(rounds[0]);
+            
+            root.getChildren().add(s1);
+
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();

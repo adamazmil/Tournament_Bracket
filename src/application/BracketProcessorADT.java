@@ -1,3 +1,16 @@
+///////////////////////////////////////////////////////////////////////////////
+// 
+// Title:            A-TEAM Program 5
+// Files:            Main.java, Team.java, BracketProcessor.java,
+//						BracketProcessorADT.java
+// Semester:         CS400 Spring 2018
+//
+// Authors:           John Chen, Justin Tan, Jun Lin, Adam Azmil
+// Lecturer's Name:   Deb Deppler
+// Group Number:      24
+//
+///////////////////////////////////////////////////////////////////////////////
+
 package application;
 
 import javafx.scene.layout.HBox;
@@ -29,5 +42,4 @@ public interface BracketProcessorADT {
      * @return  array of teams corresponding to round number
      */
     public Team[] getData(int index);
-    
 }

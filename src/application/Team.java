@@ -1,8 +1,21 @@
+///////////////////////////////////////////////////////////////////////////////
+// 
+// Title:            A-TEAM Program 5
+// Files:            Main.java, Team.java, BracketProcessor.java,
+//						BracketProcessorADT.java
+// Semester:         CS400 Spring 2018
+//
+// Authors:           John Chen, Justin Tan, Jun Lin, Adam Azmil
+// Lecturer's Name:   Deb Deppler
+// Group Number:      24
+//
+///////////////////////////////////////////////////////////////////////////////
+
 package application;
 
 import javafx.scene.control.Label;
 
-/*
+/**
  * Team class that stores score and a label containing the team name
  */
 public class Team {
@@ -20,7 +33,7 @@ public class Team {
         this.score = -1;
     }
     
-    /*
+    /**
      * gets label associated with team
      * 
      * @return  label connecting to team
@@ -29,7 +42,7 @@ public class Team {
     	return name;
     }
     
-    /*
+    /**
      * sets the text of name label
      * 
      * @param   name    name to change label to
@@ -38,7 +51,7 @@ public class Team {
         this.name.setText(name);;
     }
     
-    /*
+    /**
      * getter for string representation of name
      * 
      * @return name as a string
@@ -47,7 +60,7 @@ public class Team {
     	return name.getText();
     }
 
-    /*
+    /**
      * setter for score of team
      * 
      * @param   score   new score of team
@@ -56,7 +69,7 @@ public class Team {
         this.score = score;
     }
     
-    /*
+    /**
      * getter for score
      * 
      * @return  int score of team
