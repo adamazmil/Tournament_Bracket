@@ -9,12 +9,16 @@ import java.util.stream.Stream;
 
 public class BracketProcessor implements BracketProcessorADT {
     private int numberOfTeams;
+<<<<<<< HEAD
     //2d array holding all rounds of the tournament, 
     //last round is only champion, first round is all teams, eliminates half of the teams per round
     private Team[][] teamRounds; 
     
     //list of teams leaderboard, constructed in reverse order
     private List<Team> leaderBoard = new ArrayList<Team>();
+=======
+    private Match[][] matchRounds;
+>>>>>>> 93834a57c2d07657dd39799649eb0f05d77895d3
 
     /**
      * Constructor for bracketprocessor, takes a filepath as a string and constructs the 2d array of rounds based on the size of the file
@@ -31,7 +35,9 @@ public class BracketProcessor implements BracketProcessorADT {
                     // make all of the Strings in the Stream lowercase
                     .map(String::toLowerCase);
             
+            String[] teamList = teamStream.toArray(String[]::new);
             
+<<<<<<< HEAD
             String[] teamsAsString = teamStream.toArray(String[]::new);
             Team[] teamList = new Team[teamsAsString.length];
             
@@ -52,17 +58,51 @@ public class BracketProcessor implements BracketProcessorADT {
                     teamRounds[i] = new Team[teamList.length / (int) (Math.pow(2, i))];
                     for(int j = 0; j < teamRounds[i].length; j++) {
                         teamRounds[i][j] = new Team("TBD");
+=======
+            
+            matchRounds = new Match[(int)((Math.log(teamList.length/2)/Math.log(2))+1)][];
+            //System.out.println((int)(Math.log(teamList.length)/Math.log(2)));
+            for(int i = 0; i < matchRounds.length; i++) {
+                if (i == 0) {
+                    matchRounds[0] = new Match[teamList.length/2];
+                    for (int j = 0; j < teamList.length; j+=2) {
+                        matchRounds[0][j/2] = new Match(new Team(teamList[j]),new Team(teamList[j+1]), 0, j/2, this);
+                    }
+                }
+                else {
+                    matchRounds[i] = new Match[matchRounds[0].length/(int)(Math.pow(2, i))];
+                    for(int j = 0; j < matchRounds[i].length; j++) {
+                        matchRounds[i][j] = new Match(null, null, i, j, this);
+>>>>>>> 93834a57c2d07657dd39799649eb0f05d77895d3
                     }
                 }
             }
-            
             this.numberOfTeams = teamList.length;
+<<<<<<< HEAD
             teamRounds[0] = seed();
         } catch (IOException e) {
+=======
+            //seed();
+            
+            
+            for (int i = 0; i < matchRounds.length; i++) {
+                for(int j = 0; j < matchRounds[i].length; j++) {
+                    if (matchRounds[i][j] == null) {
+                        System.out.print("null");
+                    } else {
+                        System.out.print(matchRounds[i][j]);
+                    }
+                }
+                System.out.println();
+            }
+            
+        } catch(IOException e) {
+>>>>>>> 93834a57c2d07657dd39799649eb0f05d77895d3
             e.printStackTrace();
         }
     }
     
+<<<<<<< HEAD
     /**
      * Seeds first round inside 2d array implementation of bracketprocessor (1st v last, 2nd v 2nd to last, etc in alternating order)
      * assuming inputted array is already in positional order
@@ -140,7 +180,52 @@ public class BracketProcessor implements BracketProcessorADT {
             return null;
         }
         return teamRounds[index];
+=======
+    @Override
+
+    public Team[] seed() {
+//        Team[] temporary = new Team[numberOfTeams];
+//        int teamIndex = numberOfTeams-1;
+//        for(int i=0; i < numberOfTeams-1 ; i++ ) {
+//            System.out.println("test");
+//            temporary[i]= matchRounds[0][i];
+//            temporary[++i] = matchRounds[0][teamIndex--];
+//        }
+//        matchRounds[0]=temporary;
+//        return matchRounds[0];
+        return null;
     }
+        
+    public void advanceRound(Team team1, Team team2, int round, int gameIndex) {
+        Team winner;
+        System.out.println("team1 score: " + team1.getScore() + " team2 score: " + team2.getScore());
+        if (team1.getScore() > team2.getScore()) {
+            winner = team1;
+        }
+        else {
+            winner = team2;
+        }
+    	//Team winner = (team1.getScore() > team2.getScore()) ? team2 : team1;
+    	int winnerPosition = gameIndex / 2;
+
+    	if (gameIndex % 2 == 0) {
+    		matchRounds[round + 1][winnerPosition].setTeam1(winner);
+    	} else {
+    		matchRounds[round + 1][winnerPosition].setTeam2(winner);
+    	}
+    }
+    
+    @Override
+    public Match[] getData(int index) {  
+        return matchRounds[index];
+>>>>>>> 93834a57c2d07657dd39799649eb0f05d77895d3
+    }
+    
+    public int getRounds() {
+        return matchRounds.length;
+    }
+    
+    
 
     /**
      * getter for leaderboard list
