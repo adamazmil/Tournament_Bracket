@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 // 
 // Title:            A-TEAM Program 5
-// Files:            Main.java, Team.java, bracketProcessor.java,
-//						bracketProcessorADT.java
+// Files:            Main.java, Team.java, BracketProcessor.java,
+//						BracketProcessorADT.java
 // Semester:         CS400 Spring 2018
 //
 // Authors:           John Chen, Justin Tan, Jun Lin, Adam Azmil
