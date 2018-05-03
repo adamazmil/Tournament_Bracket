@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -27,7 +28,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             primaryStage.setTitle("Tournament Bracket");
-            //primaryStage.getIcons(new Image("color-UWcrest-print"));
+            primaryStage.getIcons().add(new Image("file:color-UWcrest-print.png"));
+
             String oneTeam = "";
 	        if (firstRound == null) { // if there are no teams 
             	Label message = new Label("NO TEAMS ENTERED - 0 WINNERS");
