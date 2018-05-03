@@ -9,6 +9,12 @@ public class Team {
     private Label name;
     private int score;
 
+    /*
+     * Constructor for team, initializes Label with given name and score to -1 (not set)
+     * 
+     * @param   name    name of team
+     * 
+     */
     public Team(String name) {
         this.name = new Label(name);
         this.score = -1;
