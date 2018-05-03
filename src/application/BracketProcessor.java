@@ -1,3 +1,16 @@
+///////////////////////////////////////////////////////////////////////////////
+// 
+// Title:            A-TEAM Program 5
+// Files:            Main.java, Team.java, bracketProcessor.java,
+//						bracketProcessorADT.java
+// Semester:         CS400 Spring 2018
+//
+// Authors:           John Chen, Justin Tan, Jun Lin, Adam Azmil
+// Lecturer's Name:   Deb Deppler
+// Group Number:      24
+//
+///////////////////////////////////////////////////////////////////////////////
+
 package application;
 
 import java.io.IOException;
