@@ -63,7 +63,7 @@ public class BracketProcessor implements BracketProcessorADT {
         }
     }
     
-    /*
+    /**
      * Seeds first round inside 2d array implementation of bracketprocessor (1st v last, 2nd v 2nd to last, etc in alternating order)
      * assuming inputted array is already in positional order
      * 
@@ -105,7 +105,7 @@ public class BracketProcessor implements BracketProcessorADT {
         return teamSeed;
     }
 
-    /*
+    /**
      * moves winning team to next corresponding round and adds finishers to leaderboard based on round position
      * 
      * @param   team1   first team of match
@@ -128,7 +128,7 @@ public class BracketProcessor implements BracketProcessorADT {
         teamRounds[round + 1][winnerPosition].setNameLabel(winner.getNameString());
     }
 
-    /*
+    /**
      * gets array of teams of a given round, returns null if no teams present
      * 
      * @param   index   round number to get
@@ -142,7 +142,7 @@ public class BracketProcessor implements BracketProcessorADT {
         return teamRounds[index];
     }
 
-    /*
+    /**
      * getter for leaderboard list
      * 
      * @return  List of teams of leaderboard in reverse order
