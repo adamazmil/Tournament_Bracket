@@ -1,3 +1,16 @@
+///////////////////////////////////////////////////////////////////////////////
+// 
+// Title:            A-TEAM Program 5
+// Files:            Main.java, Team.java, BracketProcessor.java,
+//						BracketProcessorADT.java
+// Semester:         CS400 Spring 2018
+//
+// Authors:           John Chen, Justin Tan, Jun Lin, Adam Azmil
+// Lecturer's Name:   Deb Deppler
+// Group Number:      24
+//
+///////////////////////////////////////////////////////////////////////////////
+
 package application;
 import java.util.List;
 import javafx.application.Application;
@@ -15,6 +28,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+// constructs the user interface of the Tournament Bracket
 public class Main extends Application {
 	
 	BracketProcessor bracketData = new BracketProcessor("teams.txt");
@@ -53,7 +67,7 @@ public class Main extends Application {
 	            }
 	        }
 	        
-	        // creates the games 
+	        // creates the games. Games allow user to input team scores and advance the winner 
 	        for (int i = 0; i < rounds.length - 1; i++) {
 	        	VBox roundLeft = new VBox(); // stores the games on the left
 	            roundLeft.setAlignment(Pos.CENTER);
@@ -74,7 +88,7 @@ public class Main extends Application {
 	            rounds[i].setRight(roundRight);
 	        }
 	        	
-	        // the last round game
+	        // creates the last round game
 	        VBox lastRound = new VBox();
 	        lastRound.setAlignment(Pos.CENTER);
 	        lastRound.setPadding(new Insets(0, 960-(200*(rounds.length)), 0, 960-(200*(rounds.length))));
@@ -83,7 +97,7 @@ public class Main extends Application {
 	        				bracketData.getData(rounds.length-1)[1], rounds.length - 1, 0));
 	        rounds[rounds.length - 1].setCenter(lastRound);
 	            
-	        // the leader board
+	        // creates empty leader board
 	        VBox leaderBoardBox = new VBox();
 	        leaderBoardBox.setId("leaderBoard");
 	        leaderBoardBox.getChildren().addAll(new Label("LEADER BOARD:"),
@@ -92,7 +106,7 @@ public class Main extends Application {
 			leaderBoardBox.setAlignment(Pos.BOTTOM_CENTER);
 			rounds[0].setBottom(leaderBoardBox);
 			
-			// instructions
+			// prints the instructions
 			VBox instructionBox = new VBox();
 			instructionBox.setPadding(new Insets(20, 10, 50, 20));
 			Label instruction = new Label("Enter scores for the matchup and click "
