@@ -1,7 +1,9 @@
 package application;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -34,9 +36,11 @@ public class Main extends Application {
 
             for (int i = 0; i < rounds.length - 1; i++) {
                 VBox roundLeft = new VBox();
-                roundLeft.setPadding(new Insets(50 * i, 50, 0, 50));
+                roundLeft.setAlignment(Pos.CENTER);
+                roundLeft.setPadding(new Insets(0, 0, 0, 50));
                 VBox roundRight = new VBox();
-                roundRight.setPadding(new Insets(50 * i, 50, 0, 50));
+                roundRight.setAlignment(Pos.CENTER);
+                roundRight.setPadding(new Insets(0, 0, 0, 50));
                 Team[] tempround = bracketData.getData(i);
                 for (int j = 0; j < tempround.length / 2; j += 2) {
                 	roundLeft.getChildren().add(makeGames(tempround[j], tempround[j + 1], i, j));
@@ -49,7 +53,8 @@ public class Main extends Application {
             }
 
             VBox lastRound = new VBox();
-            lastRound.setPadding(new Insets(50, 0, 0, 20));
+            lastRound.setAlignment(Pos.CENTER);
+            lastRound.setPadding(new Insets(0, 0, 0, 540-(75*(rounds.length))));
             lastRound.getChildren()
                     .add(makeGames(bracketData.getData(rounds.length-1)[0], 
                             bracketData.getData(rounds.length-1)[1], rounds.length - 1, 0));
@@ -58,7 +63,7 @@ public class Main extends Application {
 //            // testing advanceRound.
 //            teamRounds[1][0].setNameLabel("HELLO");
 
-            Scene scene = new Scene(rounds[0], 1366, 900);
+            Scene scene = new Scene(rounds[0], 1920, 1080);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
             VBox instructionBox = new VBox();
@@ -85,13 +90,41 @@ public class Main extends Application {
         HBox teamField1 = new HBox();
         TextField inputTeam1 = new TextField();
         inputTeam1.setPromptText("Enter team scores");
-        inputTeam1.setOnAction(e -> team1.setScore(Integer.parseInt(inputTeam1.getText())));
+        inputTeam1.textProperty().addListener((obs, o, n) -> 
+        {
+            try {
+                team1.setScore(Integer.parseInt(n));
+            } catch (NumberFormatException err) {
+                System.out.println(n.trim());
+                if (n.length()>o.length()) {
+                    Platform.runLater(() -> { 
+                        inputTeam1.setText(o);
+                    }); 
+                }
+                
+            }
+            
+        });
         teamField1.getChildren().addAll(team1.getNameLabel(), inputTeam1);
         
         HBox teamField2 = new HBox();
         TextField inputTeam2 = new TextField();
         inputTeam2.setPromptText("Enter team scores");
-        inputTeam2.setOnAction(e -> team2.setScore(Integer.parseInt(inputTeam2.getText())));
+        inputTeam2.textProperty().addListener((obs, o, n) -> 
+        {
+            try {
+                team2.setScore(Integer.parseInt(n));
+            } catch (NumberFormatException err) {
+                Platform.runLater(() -> { 
+                    if (n.length()>o.length()) {
+                        Platform.runLater(() -> { 
+                            inputTeam1.setText(o);
+                        }); 
+                    }
+                }); 
+            }
+            
+        });
         teamField2.getChildren().addAll(team2.getNameLabel(), inputTeam2);
         
         HBox submitBox = new HBox();
