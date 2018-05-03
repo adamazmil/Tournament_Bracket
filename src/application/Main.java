@@ -29,7 +29,6 @@ public class Main extends Application {
         try {
             primaryStage.setTitle("Tournament Bracket");
             primaryStage.getIcons().add(new Image("file:color-UWcrest-print.png"));
-
             String oneTeam = "";
 	        if (firstRound == null) { // if there are no teams 
             	Label message = new Label("NO TEAMS ENTERED - 0 WINNERS");
@@ -206,7 +205,7 @@ public class Main extends Application {
     /**
      * gets the top 3 teams and shows them in a leader board  
      *
-     * @return  VBox  vbox of the leader board
+     * @return  VBox  the leader board
      * 
      */
     private VBox processWinners() {
