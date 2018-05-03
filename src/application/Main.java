@@ -27,42 +27,51 @@ public class Main extends Application {
         try {
             primaryStage.setTitle("Tournament Bracket");
             
-            for (int i = 0; i < rounds.length; i++) {
-                rounds[i] = new BorderPane();
-                if (i != 0) {
-                    rounds[i - 1].setCenter(rounds[i]);
-                }
-            }
-
-            for (int i = 0; i < rounds.length - 1; i++) {
-                VBox roundLeft = new VBox();
-                roundLeft.setAlignment(Pos.CENTER);
-                roundLeft.setPadding(new Insets(0, 0, 0, 50));
-                VBox roundRight = new VBox();
-                roundRight.setAlignment(Pos.CENTER);
-                roundRight.setPadding(new Insets(0, 0, 0, 50));
-                Team[] tempRound = bracketData.getData(i);
-                for (int j = 0; j < tempRound.length / 2; j += 2) {
-                	roundLeft.getChildren().add(makeGames(tempRound[j], tempRound[j + 1], i, j));
-                }
-                for (int j = tempRound.length / 2; j < tempRound.length; j += 2) {
-                    roundRight.getChildren().add(makeGames(tempRound[j], tempRound[j + 1], i, j));
-                }
-                rounds[i].setLeft(roundLeft);
-                rounds[i].setRight(roundRight);
-            }
-
-            VBox lastRound = new VBox();
-            lastRound.setAlignment(Pos.CENTER);
-            lastRound.setPadding(new Insets(0, 0, 0, 540-(75*(rounds.length))));
-            lastRound.getChildren()
-                    .add(makeGames(bracketData.getData(rounds.length-1)[0], 
-                            bracketData.getData(rounds.length-1)[1], rounds.length - 1, 0));
-            rounds[rounds.length - 1].setCenter(lastRound);
+	        for (int i = 0; i < rounds.length; i++) {
+	        	rounds[i] = new BorderPane();
+	            	if (i != 0) {
+	            		rounds[i - 1].setCenter(rounds[i]);
+	            }
+	        }
             
+	        String oneTeam = "";
+	        if (firstRound.length == 0) {
+            	Label message = new Label("NO TEAMS ENTERED - 0 WINNERS");
+            	message.setFont(new Font("Arial", 25));
+	        	rounds[rounds.length - 1].setCenter(message);
+            } else if (firstRound.length == 1) {
+            	oneTeam = firstRound[0].getNameString();
+            } else {
+	            for (int i = 0; i < rounds.length - 1; i++) {
+	                VBox roundLeft = new VBox();
+	                roundLeft.setAlignment(Pos.CENTER);
+	                roundLeft.setPadding(new Insets(0, 0, 0, 50));
+	                VBox roundRight = new VBox();
+	                roundRight.setAlignment(Pos.CENTER);
+	                roundRight.setPadding(new Insets(0, 0, 0, 50));
+	                Team[] tempRound = bracketData.getData(i);
+	                for (int j = 0; j < tempRound.length / 2; j += 2) {
+	                	roundLeft.getChildren().add(makeGames(tempRound[j], tempRound[j + 1], i, j));
+	                }
+	                for (int j = tempRound.length / 2; j < tempRound.length; j += 2) {
+	                    roundRight.getChildren().add(makeGames(tempRound[j], tempRound[j + 1], i, j));
+	                }
+	                rounds[i].setLeft(roundLeft);
+	                rounds[i].setRight(roundRight);
+	            }
+	
+	            VBox lastRound = new VBox();
+	            lastRound.setAlignment(Pos.CENTER);
+	            lastRound.setPadding(new Insets(0, 0, 0, 540-(75*(rounds.length))));
+	            lastRound.getChildren()
+	                    .add(makeGames(bracketData.getData(rounds.length-1)[0], 
+	                            bracketData.getData(rounds.length-1)[1], rounds.length - 1, 0));
+	            rounds[rounds.length - 1].setCenter(lastRound);
+            }
+	        
             VBox leaderBoardBox = new VBox();
             leaderBoardBox.setPadding(new Insets(0, 30, 130, 200));
-            leaderBoardBox.getChildren().addAll(new Label("LEADER BOARD:"), new Label("1."),
+            leaderBoardBox.getChildren().addAll(new Label("LEADER BOARD:"), new Label("1. " + oneTeam),
             		new Label("2."), new Label("3."));
             
             rounds[rounds.length - 1].setBottom(leaderBoardBox);
