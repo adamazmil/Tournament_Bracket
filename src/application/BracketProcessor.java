@@ -85,10 +85,10 @@ public class BracketProcessor implements BracketProcessorADT {
                 teamSeed[roundItterator++]= teamList[endPoint-i];
                 teamSeed[roundItterator++]= teamList[midPoint1-i];
                 teamSeed[roundItterator++]= teamList[midPoint2+i];
-                teamSeed[roundItterator++]= teamList[numberOfTeams/4-1-i];
+                teamSeed[roundItterator++]= teamList[((numberOfTeams/4)-1)-i];
                 teamSeed[roundItterator++]= teamList[(numberOfTeams/4)*3+i];
                 teamSeed[roundItterator++]= teamList[numberOfTeams/4+i];
-                teamSeed[roundItterator++]= teamList[(numberOfTeams/4)*3-1-i];
+                teamSeed[roundItterator++]= teamList[(((numberOfTeams/4)*3)-1)-i];
             }
         }
         else if(numberOfTeams==4){
