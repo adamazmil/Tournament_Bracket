@@ -25,6 +25,9 @@
 	-fx-spacing: 10;
 	-fx-font-weight: bold;
 	-fx-font-size: 15px;
-	-fx-font-family: "Century Gothic", "Arial";
-	
+	-fx-font-family: "Century Gothic", "Arial";	
 }
+#titleMessage {
+	-fx-font-family: "Century Gothic", "Arial";
+	-fx-font-size: 40px;
+} 
