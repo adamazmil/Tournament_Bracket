@@ -1,7 +1,7 @@
 package application;
-    
-
+import java.util.List;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
@@ -15,7 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-    
 public class Main extends Application {
 	
 	BracketProcessor bracketData = new BracketProcessor("teams.txt");
@@ -111,7 +110,7 @@ public class Main extends Application {
             
             primaryStage.setScene(scene);
             primaryStage.show();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -237,35 +236,3 @@ public class Main extends Application {
     	launch(args); // launches GUI
     }
 }
-    
-//    public VBox makeGames(String team1, String team2) {
-//        
-//        VBox vBox = new VBox();
-//        vBox.setPadding(new Insets(0,0,50,0));
-//        
-//        HBox teamField1 = new HBox();
-//        Label teamName1 = new Label(team1 + "  ");
-//        TextField inputTeam1 = new TextField();
-//        inputTeam1.setPromptText("Enter team scores");
-//        inputTeam1.setOnAction( e -> System.out.println("works"));
-//        teamField1.getChildren().addAll(teamName1, inputTeam1);
-//        
-//        HBox submitBox = new HBox();
-//        submitBox.setPadding(new Insets(0,0,0,50));
-//        Button button = new Button("Submit Game Score");
-//        button.setOnAction( e -> System.out.println("works"));
-//        submitBox.getChildren().addAll(button);
-//        
-//        HBox teamField2 = new HBox();
-//        Label teamName2 = new Label(team2 + "  ");
-//        TextField inputTeam2 = new TextField();
-//        inputTeam2.setPromptText("Enter team scores");
-//        inputTeam2.setOnAction( e -> System.out.println("works"));
-//        teamField2.getChildren().addAll(teamName2, inputTeam2);
-//        
-//        vBox.getChildren().addAll(teamField1, submitBox, teamField2);
-//        
-//        return vBox;
-//    }
-    
-
