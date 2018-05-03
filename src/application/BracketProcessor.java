@@ -58,7 +58,44 @@ public class BracketProcessor implements BracketProcessorADT {
 					}
 				}
 			}
+			
 			this.numberOfTeams = teamList.length;
+			//seed variables
+        	int midPoint1 = numberOfTeams/2-1;
+        	int midPoint2 = numberOfTeams/2;
+        	int startPoint = 0;
+        	int endPoint = numberOfTeams-1;
+        	int roundItterator=0;
+        	
+        	Team [] teamSeed = new Team[numberOfTeams];
+        	if(numberOfTeams>=8) {
+        		for(int i=0; i<numberOfTeams/8;i++) {
+            		
+            		teamSeed[roundItterator++]= teamList[startPoint+i];
+            		teamSeed[roundItterator++]= teamList[endPoint-i];
+            		teamSeed[roundItterator++]= teamList[midPoint1-i];
+            		teamSeed[roundItterator++]= teamList[midPoint2+i];
+            		teamSeed[roundItterator++]= teamList[numberOfTeams/4-1-i];
+            		teamSeed[roundItterator++]= teamList[(numberOfTeams/4)*3+i];
+            		teamSeed[roundItterator++]= teamList[numberOfTeams/4+i];
+            		teamSeed[roundItterator++]= teamList[(numberOfTeams/4)*3-1-i];
+
+            	}
+        		teamRounds[0]=teamSeed;
+        	}
+        	else if(numberOfTeams==4){
+        		for(int i=0; i<numberOfTeams/4;i++) {
+            		
+            		teamSeed[roundItterator++]= teamList[startPoint+i];
+            		teamSeed[roundItterator++]= teamList[endPoint-i];
+            		teamSeed[roundItterator++]= teamList[midPoint1-i];
+            		teamSeed[roundItterator++]= teamList[midPoint2+i];
+            		
+
+            	}
+        		teamRounds[0]=teamSeed;
+        	}
+        	
 			//seed();
 			for (int i = 0; i < teamRounds.length; i++) {
 				for (int j = 0; j < teamRounds[i].length; j++) {
