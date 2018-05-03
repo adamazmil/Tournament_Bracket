@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 public class BracketProcessor implements BracketProcessorADT {
-	private Team[] teamList;
 	private int numberOfTeams;
 	private Team[][] teamRounds;
 
@@ -40,10 +39,13 @@ public class BracketProcessor implements BracketProcessorADT {
 				}
 				else {
 					teamRounds[i] = new Team[teamList.length / (int) (Math.pow(2, i))];
+					for(int j = 0; j < teamRounds[i].length; j++) {
+					    teamRounds[i][j] = new Team("TBD");
+					}
 				}
 			}
 			this.numberOfTeams = teamList.length;
-			seed();
+			//seed();
 			for (int i = 0; i < teamRounds.length; i++) {
 				for (int j = 0; j < teamRounds[i].length; j++) {
 					if (teamRounds[i][j] == null) {
@@ -78,8 +80,8 @@ public class BracketProcessor implements BracketProcessorADT {
 		return true;
 	}
 
-	public Team[][] getData() {
-		return teamRounds;
+	public Team[] getData(int index) {
+		return teamRounds[index];
 	}
 
 }

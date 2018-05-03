@@ -16,36 +16,33 @@ public class Main extends Application {
 	
 	BracketProcessor bracketData = new BracketProcessor("teams.txt");
 	
-	//Team[][] teamRounds = bracketData.getData
-	Team[][] teamRounds = { { new Team("1"), new Team("8"), new Team("3"), new Team("6"), 
-		new Team("4"), new Team("5"), new Team("2"), new Team("7") },
-	{ new Team("TBD"), new Team("TBD"),  new Team("TBD"),  new Team("TBD")}, 
-	{  new Team("TBD"),  new Team("TBD")} };
+	Team[] firstRound = bracketData.getData(0);
 
-    BorderPane[] rounds = new BorderPane[teamRounds.length];
+    BorderPane[] rounds = new BorderPane[(int)(Math.log(firstRound.length)/Math.log(2))];
 
     @Override
     public void start(Stage primaryStage) {
         try {
             primaryStage.setTitle("Tournament Bracket");
             
-            for (int i = 0; i < teamRounds.length; i++) {
+            for (int i = 0; i < rounds.length; i++) {
                 rounds[i] = new BorderPane();
                 if (i != 0) {
                     rounds[i - 1].setCenter(rounds[i]);
                 }
             }
 
-            for (int i = 0; i < teamRounds.length - 1; i++) {
+            for (int i = 0; i < rounds.length - 1; i++) {
                 VBox roundLeft = new VBox();
                 roundLeft.setPadding(new Insets(50 * i, 50, 0, 50));
                 VBox roundRight = new VBox();
                 roundRight.setPadding(new Insets(50 * i, 50, 0, 50));
-                for (int j = 0; j < teamRounds[i].length / 2; j += 2) {
-                	roundLeft.getChildren().add(makeGames(teamRounds[i][j], teamRounds[i][j + 1], i, j));
+                Team[] tempround = bracketData.getData(i);
+                for (int j = 0; j < tempround.length / 2; j += 2) {
+                	roundLeft.getChildren().add(makeGames(tempround[j], tempround[j + 1], i, j));
                 }
-                for (int j = teamRounds[i].length / 2; j < teamRounds[i].length; j += 2) {
-                    roundRight.getChildren().add(makeGames(teamRounds[i][j], teamRounds[i][j + 1], i, j));
+                for (int j = tempround.length / 2; j < tempround.length; j += 2) {
+                    roundRight.getChildren().add(makeGames(tempround[j], tempround[j + 1], i, j));
                 }
                 rounds[i].setLeft(roundLeft);
                 rounds[i].setRight(roundRight);
@@ -54,12 +51,12 @@ public class Main extends Application {
             VBox lastRound = new VBox();
             lastRound.setPadding(new Insets(50, 0, 0, 20));
             lastRound.getChildren()
-                    .add(makeGames(teamRounds[teamRounds.length - 1][0], 
-                    		teamRounds[teamRounds.length - 1][1], teamRounds.length - 1, 0));
+                    .add(makeGames(bracketData.getData(rounds.length-1)[0], 
+                            bracketData.getData(rounds.length-1)[1], rounds.length - 1, 0));
             rounds[rounds.length - 1].setCenter(lastRound);
             
-            // testing advanceRound.
-            teamRounds[1][0].setNameLabel("HELLO");
+//            // testing advanceRound.
+//            teamRounds[1][0].setNameLabel("HELLO");
 
             Scene scene = new Scene(rounds[0], 1366, 900);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -99,21 +96,46 @@ public class Main extends Application {
         
         HBox submitBox = new HBox();
         submitBox.setPadding(new Insets(0, 0, 0, 50));
-        Button button = new Button("Submit Game Score");
+        
+        Button button;
+        if (round == rounds.length-1) {
+            button = new Button("Finish");
+        } else {
+            button = new Button("Submit Game Score");
+        }
         
 
-        BooleanBinding booleanBind = inputTeam1.textProperty().isEmpty()
-                						.or(inputTeam2.textProperty().isEmpty());
-        button.disableProperty().bind(booleanBind);
+//        BooleanBinding booleanBind = inputTeam1.textProperty().isEmpty()
+//                						.or(inputTeam2.textProperty().isEmpty());
+//        button.disableProperty().bind(booleanBind);
   
-        button.setOnAction(e -> { bracketData.advanceRound(team1, team2, round, gameIndex);
-        						  button.setDisable(true);
-        						});
+        if (round == rounds.length-1) {
+            button.setOnAction(e -> { 
+                if (!(inputTeam1.getText().trim().isEmpty() || inputTeam2.getText().trim().isEmpty()) 
+                        && !team1.getNameString().equals("TBD") && !team2.getNameString().equals("TBD")) {
+                    
+                    button.setDisable(true);
+                }
+            });
+        } else {
+            button.setOnAction(e -> { 
+                if (!(inputTeam1.getText().trim().isEmpty() || inputTeam2.getText().trim().isEmpty()) 
+                        && !team1.getNameString().equals("TBD") && !team2.getNameString().equals("TBD")) {
+                    bracketData.advanceRound(team1, team2, round, gameIndex);
+                    button.setDisable(true);
+                }
+            });
+        }
+            
         submitBox.getChildren().addAll(button);
 
         vBox.getChildren().addAll(teamField1, submitBox, teamField2);
 
         return vBox;
+    }
+    
+    private void processWinners(BracketProcessor processor) {
+        
     }
 
     public static void main(String[] args) {
