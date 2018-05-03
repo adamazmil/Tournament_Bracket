@@ -2,7 +2,6 @@
 .button {
     -fx-background-color:aqua 
 }
-#instruction {
-    -fx-alignment: left;
-    -fx-font-size: 11px;
+.root {
+    -fx-background-color: white 
 }
