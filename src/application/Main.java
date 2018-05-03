@@ -27,7 +27,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             primaryStage.setTitle("Tournament Bracket");
-            
+            primaryStage.getIcons(new Image("color-UWcrest-print"));
             String oneTeam = "";
 	        if (firstRound == null) { // if there are no teams 
             	Label message = new Label("NO TEAMS ENTERED - 0 WINNERS");
