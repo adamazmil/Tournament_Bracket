@@ -64,6 +64,7 @@ public class Main extends Application {
             leaderBoardBox.setPadding(new Insets(0, 30, 130, 200));
             leaderBoardBox.getChildren().addAll(new Label("LEADER BOARD:"), new Label("1."),
             		new Label("2."), new Label("3."));
+            
             rounds[rounds.length - 1].setBottom(leaderBoardBox);
 
             Scene scene = new Scene(rounds[0], 1920, 1080);
@@ -161,17 +162,20 @@ public class Main extends Application {
     private VBox processWinners() {
         List<Team> leaderBoard = bracketData.getLeaderBoard();
     	
-        Team first = bracketData.getData(rounds.length - 1)[0];
-        Team second = leaderBoard.get(2);
-        Team third = (leaderBoard.get(0).getScore() >= leaderBoard.get(1).getScore())
-        		? leaderBoard.get(0) : leaderBoard.get(1);
-        		
+        String first = bracketData.getData(rounds.length - 1)[0].getNameString();
+        String second = leaderBoard.get(leaderBoard.size() - 1).getNameString();
+        String third = "";
+        if (leaderBoard.size() > 2) {
+            third = (leaderBoard.get(0).getScore() >= leaderBoard.get(1).getScore())
+            	? leaderBoard.get(0).getNameString() : leaderBoard.get(1).getNameString();
+        } 
+
         VBox vBox = new VBox();
         vBox.setPadding(new Insets(0, 30, 130, 200));
         Label title = new Label("LEADER BOARD:");
-        Label firstPlace = new Label("1. " + first.getNameString());
-        Label secondPlace = new Label("2. " + second.getNameString());
-        Label thirdPlace = new Label("3. " + third.getNameString());
+        Label firstPlace = new Label("1. " + first);
+        Label secondPlace = new Label("2. " + second);
+        Label thirdPlace = new Label("3. " + third);
         vBox.getChildren().addAll(title, firstPlace, secondPlace, thirdPlace);
         
         return vBox;
