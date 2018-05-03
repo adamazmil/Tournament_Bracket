@@ -77,7 +77,7 @@ public class Main extends Application {
 	            rounds[rounds.length - 1].setCenter(lastRound);
 	            
 	            VBox leaderBoardBox = new VBox();
-	            leaderBoardBox.setPadding(new Insets(0, 0, 130, 0));
+	            leaderBoardBox.setId("leaderBoard");
 	            leaderBoardBox.getChildren().addAll(new Label("LEADER BOARD:"), new Label("1. " + oneTeam),
 	                    new Label("2."), new Label("3."));
 	            rounds[rounds.length - 1].setBottom(leaderBoardBox);  
@@ -87,10 +87,11 @@ public class Main extends Application {
 	            instructionBox.setPadding(new Insets(20, 10, 50, 20));
 	            Label instruction = new Label("Enter scores for the matchup and click submit to lock in scores. "
 	                    + "Once all matches in a round are entered, winning teams will advance and new scores can be entered.");
-	            instruction.setFont(new Font("Arial", 25));
+	            instruction.setId("instruction");
 	            instruction.setWrapText(true);
 	            instructionBox.getChildren().add(instruction);
 	            rounds[0].setTop(instructionBox);
+	            
             }
 	        
             Scene scene = new Scene(rounds[0], 1920, 1080);
@@ -151,15 +152,17 @@ public class Main extends Application {
         } else {
             button = new Button("Submit Game Score");
         }
+        button.setMaxWidth(Double.MAX_VALUE);
         
         button.setOnAction(e -> { 
         	if (!inputTeam1.getText().trim().isEmpty() && !inputTeam2.getText().trim().isEmpty() 
         			&& !team1.getNameString().equals("TBD") && !team2.getNameString().equals("TBD")) {
                 bracketData.advanceRound(team1, team2, round, gameIndex);
                 if (round == rounds.length-1) {
-                	VBox leaderBoard = processWinners();
-                	rounds[rounds.length - 1].setBottom(leaderBoard);
-                	leaderBoard.setAlignment(Pos.BOTTOM_CENTER);
+                	VBox leaderBoardBox = processWinners();
+                	leaderBoardBox.setId("leaderBoard");
+                	rounds[rounds.length - 1].setBottom(leaderBoardBox);
+                	leaderBoardBox.setAlignment(Pos.BOTTOM_CENTER);
                 }
                 button.setDisable(true);
                 inputTeam1.setDisable(true);
