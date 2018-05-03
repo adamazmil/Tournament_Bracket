@@ -27,6 +27,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -98,7 +99,7 @@ public class Main extends Application {
 		        // creates the last round game
 		        VBox lastRound = new VBox();
 		        lastRound.setAlignment(Pos.CENTER);
-		        lastRound.setPadding(new Insets(0, 960-(200*(rounds.length)), 0, 960-(200*(rounds.length))));
+		        lastRound.setPadding(new Insets(0, 1080-(200*(rounds.length)), 0, 1080-(200*(rounds.length))));
 		        lastRound.getChildren()
 		        		.add(makeGames(bracketData.getData(rounds.length-1)[0], 
 		        				bracketData.getData(rounds.length-1)[1], rounds.length - 1, 0));
@@ -218,6 +219,11 @@ public class Main extends Application {
         		bracketData.advanceRound(team1, team2, round, gameIndex);
                 if (round == rounds.length-1) { // if it is the last round
                 	// update the leader board
+                	Image image = new Image("File:trophy.png");
+                	ImageView pic = new ImageView(image);
+                	pic.setFitWidth(230);
+                	pic.setFitHeight(230);
+                	vBox.getChildren().add(pic);
                 	VBox leaderBoardBox = processWinners();
                 	leaderBoardBox.setId("leaderBoard");
                 	rounds[0].setBottom(leaderBoardBox);

@@ -115,7 +115,6 @@ public class BracketProcessor implements BracketProcessorADT {
             //make base the new previous array
             base = newlist;
         }
-
         return base;
     }
 
