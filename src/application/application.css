@@ -1,7 +1,30 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 .button {
-    -fx-background-color:aqua 
+    -fx-background-color: LightBlue; 
+    -fx-font-weight: bold;
+    -fx-font-family: "Century Gothic", "Arial";
 }
 .root {
-    -fx-background-color: white 
+    -fx-background-color: white; 
+}
+.label {
+	-fx-font-size: 12px;
+	-fx-font-family: "Century Gothic", "Arial";
+}
+#instruction {
+	-fx-font-family: "Century Gothic", "Arial";
+	-fx-font-size: 25px;
+}
+#leaderBoard {
+	-fx-padding: 20;  
+	-fx-border-style: solid inside; 
+	-fx-border-width: 2;
+	-fx-border-insets: 0 100 80 100; 
+	-fx-border-radius: 3; 
+	-fx-border-color: black;
+	-fx-spacing: 10;
+	-fx-font-weight: bold;
+	-fx-font-size: 15px;
+	-fx-font-family: "Century Gothic", "Arial";
+	
 }

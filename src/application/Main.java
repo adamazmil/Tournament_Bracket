@@ -21,7 +21,7 @@ public class Main extends Application {
 	Team[] firstRound = bracketData.getData(0);
 
     BorderPane[] rounds;
-
+ 
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -42,25 +42,24 @@ public class Main extends Application {
                 rounds[0] = new BorderPane();
                 rounds[0].setCenter(message);
             }
-            
-	         else {
+            else {
 	             rounds = new BorderPane[(int)(Math.log(firstRound.length)/Math.log(2))];
 	             for (int i = 0; i < rounds.length; i++) {
-	        	rounds[i] = new BorderPane();
+	        	 rounds[i] = new BorderPane();
 	            	if (i != 0) {
 	            		rounds[i - 1].setCenter(rounds[i]);
 	            }
 	        }
-	            for (int i = 0; i < rounds.length - 1; i++) {
-	                VBox roundLeft = new VBox();
-	                roundLeft.setAlignment(Pos.CENTER);
-	                roundLeft.setPadding(new Insets(0, 0, 0, 50));
-	                VBox roundRight = new VBox();
-	                roundRight.setAlignment(Pos.CENTER);
-	                roundRight.setPadding(new Insets(0, 50, 0, 0));
-	                Team[] tempRound = bracketData.getData(i);
-	                for (int j = 0; j < tempRound.length / 2; j += 2) {
-	                	roundLeft.getChildren().add(makeGames(tempRound[j], tempRound[j + 1], i, j));
+	        for (int i = 0; i < rounds.length - 1; i++) {
+	        	VBox roundLeft = new VBox();
+	            roundLeft.setAlignment(Pos.CENTER);
+	            roundLeft.setPadding(new Insets(0, 0, 0, 50));
+	            VBox roundRight = new VBox();
+	            roundRight.setAlignment(Pos.CENTER);
+	            roundRight.setPadding(new Insets(0, 50, 0, 0));
+	            Team[] tempRound = bracketData.getData(i);
+	            for (int j = 0; j < tempRound.length / 2; j += 2) {
+	            	roundLeft.getChildren().add(makeGames(tempRound[j], tempRound[j + 1], i, j));
 	                }
 	                for (int j = tempRound.length / 2; j < tempRound.length; j += 2) {
 	                    roundRight.getChildren().add(makeGames(tempRound[j], tempRound[j + 1], i, j));
@@ -78,9 +77,11 @@ public class Main extends Application {
 	            rounds[rounds.length - 1].setCenter(lastRound);
 	            
 	            VBox leaderBoardBox = new VBox();
-	            leaderBoardBox.setPadding(new Insets(0, 30, 130, 200));
+	            leaderBoardBox.setId("leaderBoard");
 	            leaderBoardBox.getChildren().addAll(new Label("LEADER BOARD:"), new Label("1. " + oneTeam),
 	                    new Label("2."), new Label("3."));
+	            rounds[rounds.length - 1].setBottom(leaderBoardBox);  
+	            leaderBoardBox.setAlignment(Pos.BOTTOM_CENTER);
 	            
 	            rounds[0].setBottom(leaderBoardBox);
 
@@ -90,10 +91,11 @@ public class Main extends Application {
 	            instructionBox.setPadding(new Insets(20, 10, 50, 20));
 	            Label instruction = new Label("Enter scores for the matchup and click submit to lock in scores. "
 	                    + "Once all matches in a round are entered, winning teams will advance and new scores can be entered.");
-	            instruction.setFont(new Font("Arial", 25));
+	            instruction.setId("instruction");
 	            instruction.setWrapText(true);
 	            instructionBox.getChildren().add(instruction);
 	            rounds[0].setTop(instructionBox);
+	            
             }
 	        
             Scene scene = new Scene(rounds[0], 1920, 1080);
@@ -113,9 +115,8 @@ public class Main extends Application {
         HBox teamField1 = new HBox();
         TextField inputTeam1 = new TextField();
         inputTeam1.setPromptText("Enter team scores");
-        inputTeam1.textProperty().addListener((obs, o, n) -> 
-        {
-            try {
+        inputTeam1.textProperty().addListener((obs, o, n) -> {
+        	try {
                 team1.setScore(Integer.parseInt(n));
             } catch (NumberFormatException err) {
                 System.out.println(n.trim());
@@ -123,18 +124,15 @@ public class Main extends Application {
                     Platform.runLater(() -> { 
                         inputTeam1.setText(o);
                     }); 
-                }
-                
+                }   
             }
-            
         });
         teamField1.getChildren().addAll(team1.getNameLabel(), inputTeam1);
         
         HBox teamField2 = new HBox();
         TextField inputTeam2 = new TextField();
         inputTeam2.setPromptText("Enter team scores");
-        inputTeam2.textProperty().addListener((obs, o, n) -> 
-        {
+        inputTeam2.textProperty().addListener((obs, o, n) -> {
             try {
                 team2.setScore(Integer.parseInt(n));
             } catch (NumberFormatException err) {
@@ -145,8 +143,7 @@ public class Main extends Application {
                         }); 
                     }
                 }); 
-            }
-            
+            }  
         });
         teamField2.getChildren().addAll(team2.getNameLabel(), inputTeam2);
         
@@ -159,6 +156,7 @@ public class Main extends Application {
         } else {
             button = new Button("Submit Game Score");
         }
+        button.setMaxWidth(Double.MAX_VALUE);
         
         button.setOnAction(e -> { 
         	if (!inputTeam1.getText().trim().isEmpty() && !inputTeam2.getText().trim().isEmpty() 
@@ -168,6 +166,10 @@ public class Main extends Application {
                 	//vBox.getChildren().add(processWinners());
                 	rounds[0].setBottom(processWinners());
                 	//bracketData.print();
+                	VBox leaderBoardBox = processWinners();
+                	leaderBoardBox.setId("leaderBoard");
+                	rounds[0].setBottom(leaderBoardBox);
+                	leaderBoardBox.setAlignment(Pos.BOTTOM_CENTER);
                 }
                 button.setDisable(true);
                 inputTeam1.setDisable(true);
@@ -192,7 +194,7 @@ public class Main extends Application {
         } 
 
         VBox vBox = new VBox();
-        vBox.setPadding(new Insets(0, 30, 130, 200));
+        vBox.setPadding(new Insets(0, 0, 130, 0));
         Label title = new Label("LEADER BOARD:");
         Label firstPlace = new Label("1. " + first);
         Label secondPlace = new Label("2. " + second);
