@@ -78,6 +78,8 @@ public class BracketProcessor implements BracketProcessorADT {
         int endPoint = numberOfTeams-1;
         int roundItterator=0;
         
+        //new array to hold seeded teams
+        
         Team [] teamSeed = new Team[numberOfTeams];
         if(numberOfTeams>=8) {
             for(int i=0; i<numberOfTeams/8;i++) {
