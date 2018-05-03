@@ -3,6 +3,8 @@ package application;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import javafx.scene.control.Label;
@@ -11,6 +13,7 @@ import javafx.scene.layout.HBox;
 public class BracketProcessor implements BracketProcessorADT {
 	private int numberOfTeams;
 	private Team[][] teamRounds;
+	private List<Team> leaderBoard = new ArrayList<Team>();
 
 	/**
 	 * Constructor for this class. Initializes instances variables to set the
@@ -75,6 +78,10 @@ public class BracketProcessor implements BracketProcessorADT {
 
 	public boolean advanceRound(Team team1, Team team2, int round, int gameIndex) {
 		Team winner = (team1.getScore() > team2.getScore()) ? team1 : team2;
+		if (round >= teamRounds.length - 3) {
+			Team loser = (team1.getNameString().equals(winner.getNameString())) ? team2 : team1;
+			leaderBoard.add(loser);
+		}
 		int winnerPosition = gameIndex / 2;
 		teamRounds[round + 1][winnerPosition].setNameLabel(winner.getNameString());
 		return true;
@@ -84,4 +91,7 @@ public class BracketProcessor implements BracketProcessorADT {
 		return teamRounds[index];
 	}
 
+	public List<Team> getLeaderBoard() {
+		return leaderBoard;
+	}
 }
