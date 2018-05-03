@@ -82,7 +82,7 @@ public class Main extends Application {
 	            leaderBoardBox.getChildren().addAll(new Label("LEADER BOARD:"), new Label("1. " + oneTeam),
 	                    new Label("2."), new Label("3."));
 	            
-	            rounds[rounds.length - 1].setBottom(leaderBoardBox);
+	            rounds[0].setBottom(leaderBoardBox);
 
 	            
 
@@ -166,7 +166,8 @@ public class Main extends Application {
                 bracketData.advanceRound(team1, team2, round, gameIndex);
                 if (round == rounds.length-1) {
                 	//vBox.getChildren().add(processWinners());
-                	rounds[rounds.length - 1].setBottom(processWinners());
+                	rounds[0].setBottom(processWinners());
+                	//bracketData.print();
                 }
                 button.setDisable(true);
                 inputTeam1.setDisable(true);
@@ -182,7 +183,7 @@ public class Main extends Application {
     private VBox processWinners() {
         List<Team> leaderBoard = bracketData.getLeaderBoard();
     	
-        String first = bracketData.getData(rounds.length - 1)[0].getNameString();
+        String first = bracketData.getData(rounds.length)[0].getNameString();
         String second = leaderBoard.get(leaderBoard.size() - 1).getNameString();
         String third = "";
         if (leaderBoard.size() > 2) {
